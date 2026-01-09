@@ -5,18 +5,16 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Marmita das Meninas — Monte sua marmita</title>
 
-  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
   <style>
     :root{
       --bg1: #fff7fb;
       --bg2: #fff1f6;
-      --primary: #d63384;
+      --primary: #d63384; /* será sobrescrito por JS ao enviar logo */
       --accent: #f6b0d3;
       --muted: #7d6b7d;
       --card: #ffffff;
-      --glass: rgba(255,255,255,0.7);
       --shadow: 0 6px 24px rgba(139,66,100,0.12);
       --radius: 14px;
     }
@@ -33,255 +31,184 @@
       display:flex;
       align-items:center;
       justify-content:center;
-      padding:32px;
+      padding:28px;
     }
 
     .container{
       width:100%;
       max-width:1100px;
-      background:linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,250,251,0.85));
+      background:linear-gradient(180deg, rgba(255,255,255,0.92), rgba(255,250,251,0.9));
       border-radius:var(--radius);
-      padding:28px;
+      padding:22px;
       box-shadow:var(--shadow);
       display:grid;
       grid-template-columns: 1fr 380px;
-      gap:24px;
+      gap:20px;
     }
 
     header{
       grid-column:1/-1;
       display:flex;
       align-items:center;
-      gap:18px;
+      gap:14px;
     }
-    .logo{
-      width:74px;
-      height:74px;
-      border-radius:12px;
+    .logoWrap{
+      width:78px;height:78px;border-radius:12px;
+      display:flex;align-items:center;justify-content:center;
       background:linear-gradient(135deg,var(--primary),var(--accent));
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      color:white;
-      font-family:"Playfair Display";
-      font-size:18px;
-      box-shadow: 0 8px 30px rgba(214,51,132,0.18);
+      box-shadow:0 8px 28px rgba(0,0,0,0.08);
+      overflow:hidden;
     }
+    .logoWrap img{width:100%;height:100%;object-fit:contain;background:white;padding:8px}
     h1{
-      margin:0;
-      font-family:"Playfair Display";
-      font-weight:700;
-      font-size:20px;
-      color:#3a2230;
+      margin:0;font-family:"Playfair Display";font-weight:700;font-size:20px;color:#3a2230;
     }
-    p.lead{
-      margin:4px 0 0 0;
-      color:var(--muted);
-      font-size:14px;
-    }
+    p.lead{margin:4px 0 0 0;color:var(--muted);font-size:14px}
 
     .builder{
       padding:18px;
       background:var(--card);
       border-radius:12px;
-      box-shadow: 0 6px 18px rgba(85,51,68,0.06);
+      box-shadow: 0 6px 18px rgba(85,51,68,0.04);
       overflow:auto;
-      max-height:72vh;
+      max-height:74vh;
     }
 
-    .category{
-      margin-bottom:18px;
-    }
-    .category h3{
-      margin:0 0 8px 0;
-      font-size:16px;
-      color:#502838;
-      font-weight:600;
-    }
-    .grid{
-      display:grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap:10px;
-    }
+    .section{margin-bottom:18px}
+    .section h3{margin:0 0 8px 0;font-size:15px;color:#502838;font-weight:600}
+    .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    label.small{font-size:13px;color:var(--muted);display:block;margin-bottom:6px}
 
-    .item{
-      display:flex;
-      align-items:center;
-      gap:12px;
-      padding:10px;
-      border-radius:10px;
-      background:linear-gradient(180deg, rgba(255,255,255,0.9), rgba(250,245,247,0.95));
-      border:1px solid rgba(192,168,183,0.25);
+    select, input[type="number"], input[type="text"], input[type="url"]{
+      padding:8px;border-radius:10px;border:1px solid rgba(160,130,150,0.12);
+      font-size:14px;background:transparent;color:inherit;
     }
-    .item label{
-      font-size:14px;
-      color:#4b2f3d;
-      flex:1;
-    }
-    .item input[type="number"]{
-      width:88px;
-      padding:6px 8px;
-      border-radius:8px;
-      border:1px solid rgba(160,130,150,0.15);
-      background:transparent;
-      text-align:right;
-      font-weight:600;
-    }
-    .small{
-      font-size:12px;color:var(--muted);
-      margin-top:6px;
-    }
+    input[type="number"]{width:120px;text-align:right}
+    select{min-width:185px}
 
-    .controls{
-      display:flex;
-      gap:10px;
-      margin-top:8px;
-      align-items:center;
-      flex-wrap:wrap;
-    }
-    .btn{
-      background:var(--primary);
-      color:white;
-      border:none;
-      padding:10px 14px;
-      border-radius:10px;
-      cursor:pointer;
-      font-weight:600;
-      box-shadow: 0 8px 20px rgba(214,51,132,0.12);
-    }
-    .btn.ghost{
-      background:transparent;
-      border:1px solid rgba(140,110,130,0.12);
-      color:#6a4756;
-      box-shadow:none;
-    }
+    .controls{display:flex;gap:10px;align-items:center;margin-top:10px}
+    .btn{background:var(--primary);color:white;border:none;padding:10px 14px;border-radius:10px;cursor:pointer;font-weight:600;box-shadow:0 8px 20px rgba(214,51,132,0.12)}
+    .btn.ghost{background:transparent;border:1px solid rgba(140,110,130,0.12);color:#6a4756;box-shadow:none}
 
-    .summary{
-      padding:22px;
-      background:linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,250,252,0.95));
-      border-radius:12px;
-      border:1px solid rgba(210,180,200,0.08);
-      box-shadow: 0 8px 28px rgba(120,80,100,0.06);
-    }
-    .summary h2{
-      margin:0 0 6px 0;
-      font-family:"Playfair Display";
-      font-size:18px;
-      color:#3a2230;
-    }
-    .stat{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      margin:10px 0;
-      font-weight:600;
-      color:#472a34;
-    }
-    .muted{
-      font-weight:400;
-      color:var(--muted);
-      font-size:13px;
-    }
+    .summary{padding:18px;background:linear-gradient(180deg,rgba(255,255,255,0.98),rgba(255,250,252,0.98));border-radius:12px;border:1px solid rgba(210,180,200,0.06);box-shadow:0 8px 28px rgba(120,80,100,0.04)}
+    .summary h2{margin:0 0 8px 0;font-family:"Playfair Display";font-size:18px;color:#3a2230}
+    .muted{font-weight:400;color:var(--muted);font-size:13px}
+    .stat{display:flex;justify-content:space-between;align-items:center;margin:10px 0;font-weight:700;color:#402431}
 
-    .order-row{
-      display:flex;
-      gap:10px;
-      align-items:center;
-      margin-top:8px;
-    }
-    .order-row input[type="number"]{
-      width:120px;
-      padding:8px;
-      border-radius:10px;
-      border:1px solid rgba(160,130,150,0.12);
-    }
+    .error{color:#b72b3f;font-weight:700;margin-top:8px}
 
-    .total{
-      font-size:20px;
-      color:#2a1020;
-    }
+    footer{grid-column:1/-1;text-align:center;margin-top:8px;font-size:13px;color:var(--muted)}
 
-    .note{
-      font-size:13px;
-      color:var(--muted);
-      margin-top:8px;
-      line-height:1.3;
-    }
+    .config{display:flex;gap:8px;align-items:center;margin-top:8px}
+    input[type="file"]{display:none}
+    .fileLabel{padding:6px 10px;border-radius:8px;background:rgba(0,0,0,0.03);cursor:pointer;border:1px dashed rgba(160,130,150,0.12);font-size:13px}
 
-    .error{
-      color:#b72b3f;
-      font-weight:700;
-      margin-top:6px;
-    }
-
-    footer{
-      grid-column:1/-1;
-      text-align:center;
-      margin-top:8px;
-      font-size:13px;
-      color:var(--muted);
-    }
-
-    @media (max-width:980px){
-      .container{grid-template-columns:1fr; padding:18px;}
-      .summary{order:2}
-    }
+    .colorPick{display:flex;gap:8px;align-items:center;margin-top:8px}
+    .colorPick input[type="color"]{width:40px;height:36px;padding:0;border-radius:8px;border:1px solid rgba(0,0,0,0.06)}
+    .help{font-size:12px;color:var(--muted)}
+    @media (max-width:980px){.container{grid-template-columns:1fr;padding:16px}.summary{order:2}}
   </style>
 </head>
 <body>
   <div class="container" role="main">
     <header>
-      <div class="logo" aria-hidden="true">MM</div>
-      <div>
+      <div class="logoWrap" id="logoWrap" title="Logomarca">
+        <img id="siteLogo" src="assets/logo.png" alt="Logomarca" style="display:block" onerror="this.style.display='none'">
+      </div>
+      <div style="flex:1">
         <h1>Marmita das Meninas</h1>
-        <p class="lead">Monte sua marmita premium de 300g — escolha quantas gramas de cada opção.</p>
+        <p class="lead">Monte sua marmita premium de 300g — escolha 1 proteína, 1 carboidrato e 1 legume.</p>
       </div>
     </header>
 
     <section class="builder" aria-label="Montador de marmita">
-      <div class="category">
-        <h3>Proteínas</h3>
-        <div class="grid" id="proteins">
-          <div class="item"><label>Carne de panela</label><input type="number" min="0" max="300" step="10" value="0" data-group="protein"></div>
-          <div class="item"><label>Carne em tiras</label><input type="number" min="0" max="300" step="10" value="0" data-group="protein"></div>
-          <div class="item"><label>Carne moída</label><input type="number" min="0" max="300" step="10" value="0" data-group="protein"></div>
-          <div class="item"><label>Carne suína</label><input type="number" min="0" max="300" step="10" value="0" data-group="protein"></div>
-          <div class="item"><label>Filé de frango</label><input type="number" min="0" max="300" step="10" value="0" data-group="protein"></div>
-          <div class="item"><label>Filé de peixe</label><input type="number" min="0" max="300" step="10" value="0" data-group="protein"></div>
-          <div class="item"><label>Grão de bico</label><input type="number" min="0" max="300" step="10" value="0" data-group="protein"></div>
+      <div class="section">
+        <h3>Logomarca & cores</h3>
+        <div class="label-row">
+          <label class="fileLabel" for="logoInput">Enviar logomarca</label>
+          <input id="logoInput" type="file" accept="image/*">
+          <span class="help" style="margin-left:10px">Ou coloque em <code>assets/logo.png</code> no repositório</span>
         </div>
-      </div>
-
-      <div class="category">
-        <h3>Carboidratos</h3>
-        <div class="grid" id="carbs">
-          <div class="item"><label>Arroz</label><input type="number" min="0" max="300" step="10" value="0" data-group="carb"></div>
-          <div class="item"><label>Macarrão</label><input type="number" min="0" max="300" step="10" value="0" data-group="carb"></div>
-          <div class="item"><label>Batata doce (cozida/purê)</label><input type="number" min="0" max="300" step="10" value="0" data-group="carb"></div>
-          <div class="item"><label>Batata inglesa (cozida/purê)</label><input type="number" min="0" max="300" step="10" value="0" data-group="carb"></div>
-          <div class="item"><label>Aipim (cozido/purê)</label><input type="number" min="0" max="300" step="10" value="0" data-group="carb"></div>
+        <div class="colorPick">
+          <div>
+            <label class="small">Cor primária</label>
+            <input id="primaryColor" type="color" value="#d63384">
+          </div>
+          <div>
+            <label class="small">Cor de destaque</label>
+            <input id="accentColor" type="color" value="#f6b0d3">
+          </div>
+          <div style="margin-left:8px">
+            <button class="btn ghost" id="resetTheme">Resetar</button>
+          </div>
         </div>
+        <div class="help" style="margin-top:8px">Enviar a logomarca atualizará automaticamente as cores (primária e destaque). Ajuste manualmente se necessário.</div>
       </div>
 
-      <div class="category">
-        <h3>Legumes</h3>
-        <div class="grid" id="vegs">
-          <div class="item"><label>Beterraba</label><input type="number" min="0" max="300" step="10" value="0" data-group="veg"></div>
-          <div class="item"><label>Cenoura</label><input type="number" min="0" max="300" step="10" value="0" data-group="veg"></div>
-          <div class="item"><label>Brócolis</label><input type="number" min="0" max="300" step="10" value="0" data-group="veg"></div>
-          <div class="item"><label>Couve-flor</label><input type="number" min="0" max="300" step="10" value="0" data-group="veg"></div>
-          <div class="item"><label>Abóbora (cozida/purê)</label><input type="number" min="0" max="300" step="10" value="0" data-group="veg"></div>
+      <div class="section">
+        <h3>Escolha 1 opção por categoria</h3>
+
+        <div style="margin-top:8px">
+          <label class="small">Proteína</label>
+          <div class="row">
+            <select id="proteinSelect" aria-label="proteína">
+              <option value="">— selecione —</option>
+              <option>Carne de panela</option>
+              <option>Carne em tiras</option>
+              <option>Carne moída</option>
+              <option>Carne suína</option>
+              <option>Filé de frango</option>
+              <option>Filé de peixe</option>
+              <option>Grão de bico</option>
+            </select>
+            <input id="proteinGrams" type="number" min="0" max="300" step="10" value="100" aria-label="gramas proteína"> g
+          </div>
         </div>
+
+        <div style="margin-top:12px">
+          <label class="small">Carboidrato</label>
+          <div class="row">
+            <select id="carbSelect" aria-label="carboidrato">
+              <option value="">— selecione —</option>
+              <option>Arroz</option>
+              <option>Macarrão</option>
+              <option>Batata doce (cozida/purê)</option>
+              <option>Batata inglesa (cozida/purê)</option>
+              <option>Aipim (cozido/purê)</option>
+            </select>
+            <input id="carbGrams" type="number" min="0" max="300" step="10" value="120" aria-label="gramas carboidrato"> g
+          </div>
+        </div>
+
+        <div style="margin-top:12px">
+          <label class="small">Legume</label>
+          <div class="row">
+            <select id="vegSelect" aria-label="legume">
+              <option value="">— selecione —</option>
+              <option>Beterraba</option>
+              <option>Cenoura</option>
+              <option>Brócolis</option>
+              <option>Couve-flor</option>
+              <option>Abóbora (cozida/purê)</option>
+            </select>
+            <input id="vegGrams" type="number" min="0" max="300" step="10" value="80" aria-label="gramas legume"> g
+          </div>
+        </div>
+
+        <div class="controls" style="margin-top:12px">
+          <button class="btn" id="distributeBtn">Distribuir 300g automaticamente</button>
+          <button class="btn ghost" id="clearSel">Limpar seleção</button>
+          <div style="margin-left:auto" class="help">Soma das 3 categorias deve ser <strong>300g</strong>.</div>
+        </div>
+
+        <div style="margin-top:10px" class="help">Total por marmita: <strong id="sumGrams">0</strong>g — <span id="sumNote">faça 300g</span></div>
       </div>
 
-      <div class="controls">
-        <button class="btn" id="fillBalanced">Distribuir 300g equilibrado</button>
-        <button class="btn ghost" id="clearAll">Zerar</button>
-        <div class="small">Dica: use passos de 10g para facilitar a distribuição.</div>
-      </div>
-
-      <div class="small" style="margin-top:12px">
-        Total por marmita: <strong id="sumGrams">0</strong>g — <span id="sumNote">faça 300g</span>
+      <div class="section">
+        <h3>Configurar link de pagamento PIX</h3>
+        <label class="small">Link de pagamento (PIX) — cole aqui para redirecionamento ao finalizar</label>
+        <input id="pixLink" type="url" placeholder="https://pagamento.exemplo/pix/..." style="width:100%">
+        <div class="help" style="margin-top:6px">Se o link estiver preenchido, ao clicar em Finalizar pedido você será redirecionado para esse link (aberto em nova aba).</div>
       </div>
     </section>
 
@@ -296,25 +223,22 @@
         <div class="muted">Tamanho: <strong>300g</strong></div>
       </div>
 
-      <div class="order-row" style="margin-top:12px">
-        <label class="muted" for="qty">Quantas marmitas deseja comprar?</label>
-      </div>
-      <div class="order-row">
-        <input id="qty" type="number" min="1" step="1" value="1" aria-label="Quantidade de marmitas" />
-        <div style="flex:1">
-          <div class="muted">Promoções:</div>
-          <div class="small">A cada 10 pagas ganha +1 (ex.: compre 10 e receba 11). A cada 20 pagas ganha +2.</div>
+      <div style="margin-top:6px">
+        <label class="muted">Quantas marmitas deseja comprar?</label>
+        <div style="margin-top:6px" class="row">
+          <input id="qty" type="number" min="1" step="1" value="1" aria-label="Quantidade de marmitas">
+          <div style="flex:1" class="help">Promoção: a cada 10 pagas ganha +1.</div>
         </div>
       </div>
 
-      <div style="margin-top:16px">
+      <div style="margin-top:12px">
         <div class="muted">Marmitas (pagas)</div>
         <div style="font-size:18px;font-weight:700" id="paidCount">1</div>
       </div>
 
       <div style="margin-top:8px">
         <div class="muted">Bônus (gratuitas)</div>
-        <div style="font-size:18px;font-weight:700;color:#7d4a65" id="freeCount">0</div>
+        <div style="font-size:18px;font-weight:700;color:#6b3b54" id="freeCount">0</div>
       </div>
 
       <div style="margin-top:8px">
@@ -322,33 +246,36 @@
         <div class="total" id="totalCount">1</div>
       </div>
 
-      <div style="margin-top:14px">
+      <div style="margin-top:12px">
         <div class="muted">Total a pagar</div>
-        <div style="font-size:22px;font-weight:800;color:var(--primary)" id="totalPrice">R$ 19,00</div>
+        <div style="font-size:20px;font-weight:800;color:var(--primary)" id="totalPrice">R$ 19,00</div>
         <div class="muted small" id="effectivePrice">Preço efetivo por marmita: R$ 19,00</div>
       </div>
 
       <div id="orderError" class="error" role="alert" style="display:none"></div>
 
-      <div style="margin-top:16px;display:flex;gap:10px;align-items:center">
+      <div style="margin-top:14px;display:flex;gap:10px;align-items:center">
         <button class="btn" id="orderButton">Finalizar pedido</button>
         <button class="btn ghost" id="previewBtn">Visualizar marmita</button>
       </div>
 
-      <p class="note">Observação: os valores e bônus são aplicados conforme quantidade de marmitas pagas. Confirme que a soma das gramas por marmita é 300g antes de finalizar.</p>
+      <p class="note" style="margin-top:10px">Confirme que a soma das 3 categorias é 300g antes de finalizar. O redirecionamento para PIX abrirá em nova aba se um link estiver configurado.</p>
     </aside>
 
-    <footer>
-      Marmita das Meninas — sabor, carinho e prática. &nbsp;|&nbsp; Todos os preços em reais (BRL)
-    </footer>
+    <footer>Marmita das Meninas — sabor, carinho e prática. | Todos os preços em reais (BRL)</footer>
   </div>
 
   <script>
     (function(){
       const PRICE = 19.00;
-      const inputs = Array.from(document.querySelectorAll('input[type="number"][data-group]'));
+      const proteinSelect = document.getElementById('proteinSelect');
+      const carbSelect = document.getElementById('carbSelect');
+      const vegSelect = document.getElementById('vegSelect');
+      const proteinGrams = document.getElementById('proteinGrams');
+      const carbGrams = document.getElementById('carbGrams');
+      const vegGrams = document.getElementById('vegGrams');
       const sumGramsEl = document.getElementById('sumGrams');
-      const sumNoteEl = document.getElementById('sumNote');
+      const sumNote = document.getElementById('sumNote');
       const qtyEl = document.getElementById('qty');
       const paidCountEl = document.getElementById('paidCount');
       const freeCountEl = document.getElementById('freeCount');
@@ -358,31 +285,39 @@
       const orderError = document.getElementById('orderError');
       const orderButton = document.getElementById('orderButton');
       const previewBtn = document.getElementById('previewBtn');
-      const fillBalanced = document.getElementById('fillBalanced');
-      const clearAll = document.getElementById('clearAll');
+      const distributeBtn = document.getElementById('distributeBtn');
+      const clearSel = document.getElementById('clearSel');
+      const pixLinkEl = document.getElementById('pixLink');
 
+      // Logo & theme
+      const logoInput = document.getElementById('logoInput');
+      const siteLogo = document.getElementById('siteLogo');
+      const logoWrap = document.getElementById('logoWrap');
+      const primaryColor = document.getElementById('primaryColor');
+      const accentColor = document.getElementById('accentColor');
+      const resetThemeBtn = document.getElementById('resetTheme');
+
+      // helpers
       function sumGrams(){
-        return inputs.reduce((s,i)=> s + (Number(i.value)||0), 0);
+        return (Number(proteinGrams.value)||0) + (Number(carbGrams.value)||0) + (Number(vegGrams.value)||0);
       }
+
+      function calcFree(qty){ return Math.floor(qty / 10); }
 
       function updateSumUI(){
-        const total = sumGrams();
-        sumGramsEl.textContent = total;
-        if(total === 300){
-          sumNoteEl.textContent = 'pronto — 300g';
-          sumNoteEl.style.color = '';
-        }else if(total < 300){
-          sumNoteEl.textContent = 'faltam ' + (300-total) + 'g';
-          sumNoteEl.style.color = '#b72b3f';
-        }else{
-          sumNoteEl.textContent = 'excedeu em ' + (total-300) + 'g';
-          sumNoteEl.style.color = '#b72b3f';
+        const s = sumGrams();
+        sumGramsEl.textContent = s;
+        if(s === 300){
+          sumNote.textContent = 'pronto — 300g';
+          sumNote.style.color = '';
+        } else if(s < 300){
+          sumNote.textContent = 'faltam ' + (300 - s) + 'g';
+          sumNote.style.color = '#b72b3f';
+        } else {
+          sumNote.textContent = 'excedeu em ' + (s - 300) + 'g';
+          sumNote.style.color = '#b72b3f';
         }
-      }
-
-      function calcFree(qty){
-        // Promoção: a cada 10 pagas ganha +1 (ex.: 10->+1, 20->+2)
-        return Math.floor(qty / 10);
+        updatePriceUI();
       }
 
       function updatePriceUI(){
@@ -390,7 +325,7 @@
         const free = calcFree(qty);
         const total = qty + free;
         const totalPrice = qty * PRICE;
-        const effective = total>0 ? (totalPrice / total) : PRICE;
+        const effective = total > 0 ? (totalPrice / total) : PRICE;
 
         paidCountEl.textContent = qty;
         freeCountEl.textContent = free;
@@ -398,16 +333,20 @@
         totalPriceEl.textContent = 'R$ ' + totalPrice.toFixed(2);
         effectivePriceEl.textContent = 'Preço efetivo por marmita: R$ ' + effective.toFixed(2);
 
-        // Validation
         const grams = sumGrams();
         if(grams !== 300){
           orderError.style.display = 'block';
-          orderError.textContent = 'A soma das gramas por marmita precisa ser 300g antes de finalizar.';
+          orderError.textContent = 'A soma das 3 categorias precisa ser 300g antes de finalizar.';
           orderButton.disabled = true;
           orderButton.style.opacity = 0.6;
         } else if(qty < 1){
           orderError.style.display = 'block';
           orderError.textContent = 'Escolha pelo menos 1 marmita.';
+          orderButton.disabled = true;
+          orderButton.style.opacity = 0.6;
+        } else if(!proteinSelect.value || !carbSelect.value || !vegSelect.value){
+          orderError.style.display = 'block';
+          orderError.textContent = 'Selecione 1 opção em cada categoria (proteína, carboidrato e legume).';
           orderButton.disabled = true;
           orderButton.style.opacity = 0.6;
         } else {
@@ -417,14 +356,17 @@
         }
       }
 
-      // Events
-      inputs.forEach(i=>{
+      // events
+      [proteinGrams, carbGrams, vegGrams].forEach(i=>{
         i.addEventListener('input', ()=>{
-          // sanitize values
           if(i.value === '') i.value = 0;
           i.value = Math.max(0, Math.min(300, Math.round(Number(i.value)||0)));
-          updateSumUI(); updatePriceUI();
+          updateSumUI();
         });
+      });
+
+      [proteinSelect, carbSelect, vegSelect].forEach(s=>{
+        s.addEventListener('change', updatePriceUI);
       });
 
       qtyEl.addEventListener('input', ()=>{
@@ -433,60 +375,51 @@
         updatePriceUI();
       });
 
-      fillBalanced.addEventListener('click', ()=>{
-        // Distribui 300g: 100g proteínas (se houver muitas, divide entre as primeiras), 100g carbo, 100g legumes
-        const proteinInputs = inputs.filter(i=>i.dataset.group === 'protein');
-        const carbInputs = inputs.filter(i=>i.dataset.group === 'carb');
-        const vegInputs = inputs.filter(i=>i.dataset.group === 'veg');
-
-        function distribute(list, grams){
-          const per = Math.floor(grams / Math.max(1, list.length));
-          list.forEach((i, idx) => {
-            if(idx === list.length - 1){
-              // last gets remainder
-              i.value = grams - per * (list.length - 1);
-            } else {
-              i.value = per;
-            }
-          });
-        }
-
-        distribute(proteinInputs, 100);
-        distribute(carbInputs, 100);
-        distribute(vegInputs, 100);
-
-        updateSumUI(); updatePriceUI();
+      distributeBtn.addEventListener('click', ()=>{
+        // Distribui 300g: dividir entre categorias (proteína, carbo, legume)
+        const p = Math.floor(300/3);
+        proteinGrams.value = p;
+        carbGrams.value = p;
+        vegGrams.value = 300 - p*2;
+        // auto-select first options if empty
+        if(!proteinSelect.value) proteinSelect.selectedIndex = 1;
+        if(!carbSelect.value) carbSelect.selectedIndex = 1;
+        if(!vegSelect.value) vegSelect.selectedIndex = 1;
+        updateSumUI();
       });
 
-      clearAll.addEventListener('click', ()=>{
-        inputs.forEach(i=> i.value = 0);
-        updateSumUI(); updatePriceUI();
+      clearSel.addEventListener('click', ()=>{
+        proteinSelect.selectedIndex = 0;
+        carbSelect.selectedIndex = 0;
+        vegSelect.selectedIndex = 0;
+        proteinGrams.value = 0;
+        carbGrams.value = 0;
+        vegGrams.value = 0;
+        updateSumUI();
       });
 
       previewBtn.addEventListener('click', ()=>{
-        // Show a quick preview modal (simple alert for this demo)
-        const selection = inputs
-          .map(i => ({name: i.previousElementSibling ? i.previousElementSibling.textContent.trim() : 'opção', grams: Number(i.value||0)}))
-          .filter(x => x.grams > 0);
-        if(selection.length === 0){
-          alert('Nenhuma opção selecionada — sua marmita está vazia. Defina 300g no total.');
+        if(!proteinSelect.value && !carbSelect.value && !vegSelect.value){
+          alert('Selecione ao menos uma opção (1 proteína, 1 carboidrato e 1 legume) e defina as gramas.');
           return;
         }
-        let text = 'Visualização da marmita (por unidade):\n\n';
-        selection.forEach(s => text += `${s.name}: ${s.grams}g\n`);
-        text += '\nTotal: ' + sumGrams() + 'g';
+        const s = sumGrams();
+        let text = 'Visualização da marmita (por unidade):\\n\\n';
+        if(proteinSelect.value) text += proteinSelect.value + ': ' + (Number(proteinGrams.value)||0) + 'g\\n';
+        if(carbSelect.value) text += carbSelect.value + ': ' + (Number(carbGrams.value)||0) + 'g\\n';
+        if(vegSelect.value) text += vegSelect.value + ': ' + (Number(vegGrams.value)||0) + 'g\\n';
+        text += '\\nTotal: ' + s + 'g';
         alert(text);
       });
 
       orderButton.addEventListener('click', ()=>{
-        // Aqui, apenas demonstração — em produção enviar para backend / carrinho
         if(orderButton.disabled) return;
         const qty = Math.floor(Number(qtyEl.value)||0);
         const free = calcFree(qty);
         const total = qty + free;
         const totalPrice = qty * PRICE;
         const summary = [
-          'Pedido criado (simulação):',
+          'Pedido criado:',
           '',
           'Marmitas pagas: ' + qty,
           'Marmitas bônus: ' + free,
@@ -495,17 +428,134 @@
           '',
           'Composição por marmita:'
         ];
-        inputs.forEach(i=>{
-          const val = Number(i.value||0);
-          if(val>0){
-            const label = i.previousElementSibling ? i.previousElementSibling.textContent.trim() : 'opção';
-            summary.push('- ' + label + ': ' + val + 'g');
-          }
-        });
-        alert(summary.join('\n'));
+        summary.push('- ' + proteinSelect.value + ': ' + (Number(proteinGrams.value)||0) + 'g');
+        summary.push('- ' + carbSelect.value + ': ' + (Number(carbGrams.value)||0) + 'g');
+        summary.push('- ' + vegSelect.value + ': ' + (Number(vegGrams.value)||0) + 'g');
+
+        const pixLink = (pixLinkEl.value || '').trim();
+        if(pixLink){
+          // abrir link em nova aba e também mostrar resumo
+          window.open(pixLink, '_blank');
+          alert(summary.join('\\n'));
+        } else {
+          // simulação
+          alert(summary.join('\\n') + '\\n\\nNenhum link PIX configurado — esta é uma simulação.');
+        }
       });
 
-      // initial
+      // Theme / logo handling
+      function setTheme(primaryHex, accentHex){
+        document.documentElement.style.setProperty('--primary', primaryHex);
+        document.documentElement.style.setProperty('--accent', accentHex);
+        primaryColor.value = primaryHex;
+        accentColor.value = accentHex;
+      }
+
+      function hexFromRgb(r,g,b){
+        return '#' + [r,g,b].map(x=> x.toString(16).padStart(2,'0')).join('');
+      }
+
+      // compute average color (simple) then generate accent (lighter pastel)
+      function computeThemeFromImage(img){
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        const w = 120, h = 120;
+        canvas.width = w; canvas.height = h;
+        // draw centered, maintain aspect ratio
+        let iw = img.naturalWidth, ih = img.naturalHeight;
+        let sx=0, sy=0, sw=iw, sh=ih;
+        // draw resized
+        ctx.drawImage(img, 0, 0, w, h);
+        const data = ctx.getImageData(0,0,w,h).data;
+        let r=0,g=0,b=0,count=0;
+        for(let i=0;i<data.length;i+=4){
+          const alpha = data[i+3];
+          if(alpha < 125) continue;
+          r += data[i]; g += data[i+1]; b += data[i+2]; count++;
+        }
+        if(!count) return null;
+        r = Math.round(r/count); g = Math.round(g/count); b = Math.round(b/count);
+        // derive a lighter accent by increasing brightness
+        const accent = lightenRgb(r,g,b, 0.35);
+        return {primary: hexFromRgb(r,g,b), accent: hexFromRgb(accent.r, accent.g, accent.b)};
+      }
+
+      function lightenRgb(r,g,b, amount){
+        // amount 0..1 increases towards white
+        const nr = Math.round(r + (255 - r)*amount);
+        const ng = Math.round(g + (255 - g)*amount);
+        const nb = Math.round(b + (255 - b)*amount);
+        return {r:nr,g:ng,b:nb};
+      }
+
+      logoInput.addEventListener('change', (e)=>{
+        const file = e.target.files[0];
+        if(!file) return;
+        const reader = new FileReader();
+        reader.onload = function(ev){
+          siteLogo.src = ev.target.result;
+          siteLogo.style.display = 'block';
+          // compute theme when image loads
+          const img = new Image();
+          img.onload = function(){
+            const theme = computeThemeFromImage(img);
+            if(theme){
+              setTheme(theme.primary, theme.accent);
+              // persist theme in localStorage
+              localStorage.setItem('mm_theme_primary', theme.primary);
+              localStorage.setItem('mm_theme_accent', theme.accent);
+            }
+          };
+          img.src = ev.target.result;
+          // also persist logo dataURL
+          localStorage.setItem('mm_logo_data', ev.target.result);
+        };
+        reader.readAsDataURL(file);
+      });
+
+      // manual color change
+      primaryColor.addEventListener('input', ()=> {
+        document.documentElement.style.setProperty('--primary', primaryColor.value);
+        localStorage.setItem('mm_theme_primary', primaryColor.value);
+      });
+      accentColor.addEventListener('input', ()=> {
+        document.documentElement.style.setProperty('--accent', accentColor.value);
+        localStorage.setItem('mm_theme_accent', accentColor.value);
+      });
+
+      resetThemeBtn.addEventListener('click', ()=>{
+        localStorage.removeItem('mm_theme_primary');
+        localStorage.removeItem('mm_theme_accent');
+        localStorage.removeItem('mm_logo_data');
+        // restore defaults
+        setTheme('#d63384','#f6b0d3');
+        siteLogo.style.display = 'none';
+      });
+
+      // load persisted theme/logo
+      (function loadPersist(){
+        const p = localStorage.getItem('mm_theme_primary');
+        const a = localStorage.getItem('mm_theme_accent');
+        const l = localStorage.getItem('mm_logo_data');
+        if(p && a) setTheme(p,a);
+        if(l){
+          siteLogo.src = l;
+          siteLogo.style.display = 'block';
+        } else {
+          // try to load assets/logo.png (img tag already has that src)
+          // if it failed to load, onerror hides it
+        }
+        // load pix link if any
+        const savedPix = localStorage.getItem('mm_pix_link');
+        if(savedPix) pixLinkEl.value = savedPix;
+      })();
+
+      // persist pix link on change
+      pixLinkEl.addEventListener('change', ()=> {
+        localStorage.setItem('mm_pix_link', pixLinkEl.value.trim());
+      });
+
+      // initial UI update
       updateSumUI();
       updatePriceUI();
     })();
