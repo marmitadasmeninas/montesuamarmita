@@ -36,18 +36,27 @@ footer{text-align:center;font-size:12px;color:#888;padding:20px}
 </head>
 <body>
 <header>
-<h1>Marmita das Meninas</h1>
-<button class="cart-btn" onclick="openCart()">🛒 <span id="cartCount">0</span></button>
+  <div style="display:flex;align-items:center;gap:10px">
+    <img src="assets/logo.png" alt="Marmita das Meninas" style="width:48px;height:48px;border-radius:12px;object-fit:contain" />
+    <h1>Marmita das Meninas</h1>
+  </div>
+  <button class="cart-btn" onclick="openCart()">🛒 <span id="cartCount">0</span></button>
 </header>
+<div style="background:linear-gradient(90deg,#d63384,#f6b0d3);color:#fff;text-align:center;padding:10px 14px;font-size:13px;font-weight:700">
+🚚 Entrega grátis para Santo Antônio de Lisboa e região • 🎁 A cada 10 marmitas ganhe +1 grátis
+</div>
 
 <main>
-<!-- SABORES DA SEMANA -->
+<!-- SUGESTÕES DAS MENINAS -->
 <div class="card">
-<h2>Sabores da semana</h2>
-<div class="ready-item"><b>Frango grelhado + arroz + legumes</b><button class="btn btn-outline" onclick="addReady('Frango grelhado + arroz + legumes')">Adicionar • R$19</button></div>
-<div class="ready-item"><b>Carne de panela + purê de batata + cenoura</b><button class="btn btn-outline" onclick="addReady('Carne de panela + purê de batata + cenoura')">Adicionar • R$19</button></div>
-<div class="ready-item"><b>Peixe grelhado + batata doce + brócolis</b><button class="btn btn-outline" onclick="addReady('Peixe grelhado + batata doce + brócolis')">Adicionar • R$19</button></div>
-<div class="ready-item"><b>Pernil suíno + arroz + mix de legumes</b><button class="btn btn-outline" onclick="addReady('Pernil suíno + arroz + mix de legumes')">Adicionar • R$19</button></div>
+<h2>Sugestões das Meninas 💗</h2>
+<div class="ready-item"><b>Frango grelhado + arroz + legumes</b></div>
+<div class="ready-item"><b>Carne de panela + purê de batata + cenoura</b></div>
+<div class="ready-item"><b>Peixe grelhado + batata doce + brócolis</b></div>
+<div class="ready-item"><b>Pernil suíno + arroz + mix de legumes</b></div>
+<div class="ready-item"><b>Carne moída + macarrão + abobrinha</b></div>
+<div class="ready-item"><b>Frango à milanesa + purê de aipim + couve-flor</b></div>
+<div class="ready-item"><b>Grão de bico + arroz + legumes</b></div>
 </div>
 
 <!-- MARMITA PERSONALIZADA -->
@@ -81,10 +90,14 @@ footer{text-align:center;font-size:12px;color:#888;padding:20px}
 </div>
 </div>
 
-<footer>Marmita das Meninas 💗</footer>
+<footer>
+<b>Marmita das Meninas</b> 💗<br>
+Comida caseira, feita por mulheres, para facilitar sua rotina.<br>
+<span style="font-size:11px">Pedidos via WhatsApp • Pagamento via PIX ou PayPal</span>
+</footer>
 
 <script>
-const PRICE=19;
+const PRICE=19; // valor unitário da marmita
 const WHATS='5548991243859';
 let cart=JSON.parse(localStorage.getItem('cart')||'[]');
 function grams(){const t=(+pg.value||0)+(+cg.value||0)+(+vg.value||0);bar.style.width=Math.min(100,(t/350)*100)+'%';barText.textContent=t+'g de 350g';return t}
@@ -94,7 +107,7 @@ function addReady(name){cart.push({type:'ready',name});save()}
 function openCart(){render();cartModal.style.display='flex'}
 function closeCart(){cartModal.style.display='none'}
 function save(){localStorage.setItem('cart',JSON.stringify(cart));cartCount.textContent=cart.length}
-function render(){items.innerHTML='';cart.forEach((item,i)=>{if(item.type==='ready'){items.innerHTML+=`<div class='cart-item'><b>${item.name}</b><br>350g<br><button onclick='cart.splice(${i},1);save();render()'>Remover</button></div>`}else{items.innerHTML+=`<div class='cart-item'><b>Marmita personalizada</b><br>${item.protein} (${item.pg}g)<br>${item.carb} (${item.cg}g)<br>${item.veg} (${item.vg}g)<br><button onclick='cart.splice(${i},1);save();render()'>Remover</button></div>`}});const paid=cart.length;const bonus=Math.floor(paid/10);const total=paid+bonus;const value=paid*PRICE;summary.innerHTML=`Pagas: ${paid}<br>Bônus: ${bonus}<br>Total marmitas: ${total}<br><b>R$ ${value.toFixed(2)}</b>`;qrcode.innerHTML='';new QRCode(qrcode,{text:'PIX R$ '+value.toFixed(2),width:160,height:160})}
+function render(){items.innerHTML='';cart.forEach((item,i)=>{if(item.type==='ready'){items.innerHTML+=`<div class='cart-item'><b>${item.name}</b><br>350g<br><button onclick='cart.splice(${i},1);save();render()'>Remover</button></div>`}else{items.innerHTML+=`<div class='cart-item'><b>Marmita personalizada</b><br>${item.protein} (${item.pg}g)<br>${item.carb} (${item.cg}g)<br>${item.veg} (${item.vg}g)<br><button onclick='cart.splice(${i},1);save();render()'>Remover</button></div>`}});const paid=cart.length;const bonus=Math.floor(paid/10);const total=paid+bonus;const value=paid*PRICE;summary.innerHTML=`<b>Resumo do pedido</b><br><br>Marmitas pagas: ${paid}<br>Marmitas bônus: ${bonus}<br><b>Total de marmitas: ${total}</b><br><br><b>Total a pagar: R$ ${value.toFixed(2)}</b><br><span style='font-size:12px;color:#7d2430'>Promoção automática: a cada 10 marmitas pagas, ganhe +1 grátis</span>`;qrcode.innerHTML='';new QRCode(qrcode,{text:'PIX R$ '+value.toFixed(2),width:160,height:160})}
 function checkout(){if(!clientName.value||!clientPhone.value||!clientAddress.value)return alert('Preencha seus dados');let msg=`Olá! Pedido Marmita das Meninas:%0A%0ANome: ${clientName.value}%0AWhatsApp: ${clientPhone.value}%0AEndereço: ${clientAddress.value}%0A%0A`;cart.forEach((i,idx)=>{msg+=`• ${i.type==='ready'?i.name:'Marmita personalizada'}%0A`});msg+=`%0ATotal: R$ ${(cart.length*PRICE).toFixed(2)}%0A%0AConsultar taxa de entrega.`;window.open(`https://wa.me/${WHATS}?text=${msg}`,'_blank')}
 save();
 </script>
