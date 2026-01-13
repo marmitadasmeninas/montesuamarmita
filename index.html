@@ -10,9 +10,28 @@
 :root{--primary:#d63384;--accent:#f6b0d3;--bg:#fff6fa;--card:#fff;--text:#2b2430;--muted:#7d2430}
 *{box-sizing:border-box}
 body{margin:0;font-family:Inter;background:var(--bg);color:var(--text)}
-header{position:sticky;top:0;background:#fff;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 4px 14px rgba(0,0,0,.06);z-index:10}
-h1{font-family:'Playfair Display';font-size:18px;margin:0}
+
+/* HEADER */
+.top-header{
+  position:sticky;
+  top:0;
+  background:#fff;
+  padding:10px 16px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  box-shadow:0 4px 14px rgba(0,0,0,.06);
+  z-index:10;
+}
+.brand img{
+  height:72px;
+  width:auto;
+  object-fit:contain;
+  border-radius:18px;
+  box-shadow:0 8px 28px rgba(210,47,128,.35);
+}
 .cart-btn{background:var(--primary);color:#fff;border:none;padding:8px 14px;border-radius:999px;font-weight:700}
+
 main{max-width:760px;margin:auto;padding:16px}
 .card{background:#fff;border-radius:18px;padding:16px;margin-bottom:16px;box-shadow:0 12px 30px rgba(0,0,0,.08)}
 h2{font-size:16px;margin:0 0 10px}
@@ -32,15 +51,27 @@ textarea{resize:none}
 .pix-box{background:#fef1f6;border-radius:16px;padding:14px;margin-top:12px;text-align:center}
 .whats-box{background:#e7f7ef;border-radius:16px;padding:14px;margin-top:12px;font-size:13px}
 footer{text-align:center;font-size:12px;color:#888;padding:20px}
+
+.banner{
+  background:linear-gradient(90deg,#d63384,#f6b0d3);
+  color:#fff;
+  text-align:center;
+  padding:10px 14px;
+  font-size:13px;
+  font-weight:700;
+}
 </style>
 </head>
 <body>
-<header style="flex-direction:column;gap:10px;text-align:center">
-  <img src="Logo.png" alt="Marmita das Meninas" style="width:150px;height:150px;border-radius:28px;object-fit:contain;box-shadow:0 10px 36px rgba(210,47,128,.4)" />
-  <h1 style="font-size:24px">Marmita das Meninas</h1>
+
+<header class="top-header">
+  <div class="brand">
+    <img src="Logo.png" alt="Marmita das Meninas">
+  </div>
   <button class="cart-btn" onclick="openCart()">🛒 <span id="cartCount">0</span></button>
 </header>
-<div style="background:linear-gradient(90deg,#d63384,#f6b0d3);color:#fff;text-align:center;padding:10px 14px;font-size:13px;font-weight:700">
+
+<div class="banner">
 🚚 Entrega grátis para Santo Antônio de Lisboa e região • 🎁 A cada 10 marmitas ganhe +1 grátis
 </div>
 
@@ -48,13 +79,14 @@ footer{text-align:center;font-size:12px;color:#888;padding:20px}
 <!-- SUGESTÕES DAS MENINAS -->
 <div class="card">
 <h2>Sugestões das Meninas 💗</h2>
-<div class="ready-item"><b>Frango grelhado + arroz + legumes</b><div class="row"><input type="number" min="1" value="1" id="q1" /><button class="btn btn-outline" onclick="addReady('Frango grelhado + arroz + legumes',q1.value)">Adicionar</button></div></div>
-<div class="ready-item"><b>Carne de panela + purê de batata + cenoura</b><div class="row"><input type="number" min="1" value="1" id="q2" /><button class="btn btn-outline" onclick="addReady('Carne de panela + purê de batata + cenoura',q2.value)">Adicionar</button></div></div>
-<div class="ready-item"><b>Peixe grelhado + batata doce + brócolis</b><div class="row"><input type="number" min="1" value="1" id="q3" /><button class="btn btn-outline" onclick="addReady('Peixe grelhado + batata doce + brócolis',q3.value)">Adicionar</button></div></div>
-<div class="ready-item"><b>Pernil suíno + arroz + mix de legumes</b><div class="row"><input type="number" min="1" value="1" id="q4" /><button class="btn btn-outline" onclick="addReady('Pernil suíno + arroz + mix de legumes',q4.value)">Adicionar</button></div></div>
-<div class="ready-item"><b>Carne moída + macarrão + abobrinha</b><div class="row"><input type="number" min="1" value="1" id="q5" /><button class="btn btn-outline" onclick="addReady('Carne moída + macarrão + abobrinha',q5.value)">Adicionar</button></div></div>
-<div class="ready-item"><b>Frango à milanesa + purê de aipim + couve-flor</b><div class="row"><input type="number" min="1" value="1" id="q6" /><button class="btn btn-outline" onclick="addReady('Frango à milanesa + purê de aipim + couve-flor',q6.value)">Adicionar</button></div></div>
-<div class="ready-item"><b>Grão de bico + arroz + legumes</b><div class="row"><input type="number" min="1" value="1" id="q7" /><button class="btn btn-outline" onclick="addReady('Grão de bico + arroz + legumes',q7.value)">Adicionar</button></div></div>
+<div class="ready-item"><b>Frango grelhado + arroz + legumes</b><div class="row"><input type="number" min="1" value="1" id="q1"><button class="btn btn-outline" onclick="addReady('Frango grelhado + arroz + legumes',q1.value)">Adicionar</button></div></div>
+<div class="ready-item"><b>Carne de panela + purê de batata + cenoura</b><div class="row"><input type="number" min="1" value="1" id="q2"><button class="btn btn-outline" onclick="addReady('Carne de panela + purê de batata + cenoura',q2.value)">Adicionar</button></div></div>
+<div class="ready-item"><b>Peixe grelhado + batata doce + brócolis</b><div class="row"><input type="number" min="1" value="1" id="q3"><button class="btn btn-outline" onclick="addReady('Peixe grelhado + batata doce + brócolis',q3.value)">Adicionar</button></div></div>
+<div class="ready-item"><b>Pernil suíno + arroz + mix de legumes</b><div class="row"><input type="number" min="1" value="1" id="q4"><button class="btn btn-outline" onclick="addReady('Pernil suíno + arroz + mix de legumes',q4.value)">Adicionar</button></div></div>
+<div class="ready-item"><b>Carne moída + macarrão + abobrinha</b><div class="row"><input type="number" min="1" value="1" id="q5"><button class="btn btn-outline" onclick="addReady('Carne moída + macarrão + abobrinha',q5.value)">Adicionar</button></div></div>
+<div class="ready-item"><b>Frango à milanesa + purê de aipim + couve-flor</b><div class="row"><input type="number" min="1" value="1" id="q6"><button class="btn btn-outline" onclick="addReady('Frango à milanesa + purê de aipim + couve-flor',q6.value)">Adicionar</button></div></div>
+<div class="ready-item"><b>Grão de bico + arroz + legumes</b><div class="row"><input type="number" min="1" value="1" id="q7"><button class="btn btn-outline" onclick="addReady('Grão de bico + arroz + legumes',q7.value)">Adicionar</button></div></div>
+</div>
 
 <!-- MARMITA PERSONALIZADA -->
 <div class="card">
@@ -62,11 +94,11 @@ footer{text-align:center;font-size:12px;color:#888;padding:20px}
 <div style="background:#f3d2e1;border-radius:999px;height:12px;overflow:hidden"><div id="bar" style="height:100%;width:0%;background:var(--primary)"></div></div>
 <div id="barText" style="font-size:12px">0g de 350g</div>
 <label>Proteína</label>
-<div class="row"><select id="protein"><option value="">Selecione</option><option>Carne de panela</option><option>Carne em tiras</option><option>Carne moída</option><option>Filé de frango grelhado</option><option>Filé de frango à milanesa</option><option>Filé de peixe grelhado</option><option>Filé de peixe à milanesa</option><option>Pernil suíno</option><option>Grão de bico</option></select><input id="pg" type="number" value="150" min="50" max="250" /></div>
+<div class="row"><select id="protein"><option value="">Selecione</option><option>Carne de panela</option><option>Carne em tiras</option><option>Carne moída</option><option>Filé de frango grelhado</option><option>Filé de frango à milanesa</option><option>Filé de peixe grelhado</option><option>Filé de peixe à milanesa</option><option>Pernil suíno</option><option>Grão de bico</option></select><input id="pg" type="number" value="150" min="50" max="250"></div>
 <label>Carboidrato</label>
-<div class="row"><select id="carb"><option value="">Selecione</option><option>Arroz</option><option>Macarrão</option><option>Batata doce</option><option>Batata inglesa</option><option>Aipim</option><option>Abóbora cabotiá</option><option>Purê de batata doce</option><option>Purê de batata</option><option>Purê de aipim</option><option>Purê de abóbora</option></select><input id="cg" type="number" value="150" min="50" max="250" /></div>
+<div class="row"><select id="carb"><option value="">Selecione</option><option>Arroz</option><option>Macarrão</option><option>Batata doce</option><option>Batata inglesa</option><option>Aipim</option><option>Abóbora cabotiá</option><option>Purê de batata doce</option><option>Purê de batata</option><option>Purê de aipim</option><option>Purê de abóbora</option></select><input id="cg" type="number" value="150" min="50" max="250"></div>
 <label>Legume</label>
-<div class="row"><select id="veg"><option value="">Selecione</option><option>Beterraba</option><option>Cenoura</option><option>Brócolis</option><option>Couve-flor</option><option>Chuchu</option><option>Abobrinha</option><option>Mix de legumes</option></select><input id="vg" type="number" value="50" min="50" max="250" /></div>
+<div class="row"><select id="veg"><option value="">Selecione</option><option>Beterraba</option><option>Cenoura</option><option>Brócolis</option><option>Couve-flor</option><option>Chuchu</option><option>Abobrinha</option><option>Mix de legumes</option></select><input id="vg" type="number" value="50" min="50" max="250"></div>
 <button class="btn btn-primary" onclick="addCustom()">Adicionar • R$19</button>
 </div>
 </main>
@@ -75,13 +107,13 @@ footer{text-align:center;font-size:12px;color:#888;padding:20px}
 <div class="modal" id="cartModal">
 <div class="modal-content">
 <h2>Finalizar pedido</h2>
-<label>Nome</label><input id="clientName" placeholder="Seu nome" />
-<label>WhatsApp</label><input id="clientPhone" placeholder="(48) 9xxxx-xxxx" />
+<label>Nome</label><input id="clientName" placeholder="Seu nome">
+<label>WhatsApp</label><input id="clientPhone" placeholder="(48) 9xxxx-xxxx">
 <label>Endereço de entrega</label><textarea id="clientAddress" rows="3" placeholder="Rua, número, bairro"></textarea>
 <div id="items"></div>
 <div id="summary"></div>
-<div class="whats-box">📍 <b>Taxa de entrega</b><br>🚚 <b>Entrega grátis para a região de Santo Antônio de Lisboa</b><br>Para outras regiões, consulte o valor da entrega pelo WhatsApp.</div>
-<div class="pix-box"><div id="qrcode"></div><div id="pix">PIX: 48991243859</div></div>
+<div class="whats-box">📍 <b>Entrega</b><br>🚚 <b>Entrega grátis para Santo Antônio de Lisboa</b><br>Outras regiões: consulte pelo WhatsApp.</div>
+<div class="pix-box"><div id="qrcode"></div><div>PIX: 48991243859</div></div>
 <button class="btn btn-primary" onclick="checkout()">Enviar pedido pelo WhatsApp</button>
 <button class="btn btn-outline" onclick="closeCart()">Fechar</button>
 </div>
@@ -89,23 +121,23 @@ footer{text-align:center;font-size:12px;color:#888;padding:20px}
 
 <footer>
 <b>Marmita das Meninas</b> 💗<br>
-Comida caseira, feita por mulheres, para facilitar sua rotina. Florianópolis - SC.<br>
-<span style="font-size:11px">Pedidos via WhatsApp • Pagamento via PIX ou PayPal</span>
+Comida caseira, feita por mulheres, para facilitar sua rotina.<br>
+Florianópolis - SC
 </footer>
 
 <script>
-const PRICE=19; // valor unitário da marmita
+const PRICE=19;
 const WHATS='5548991243859';
 let cart=JSON.parse(localStorage.getItem('cart')||'[]');
 function grams(){const t=(+pg.value||0)+(+cg.value||0)+(+vg.value||0);bar.style.width=Math.min(100,(t/350)*100)+'%';barText.textContent=t+'g de 350g';return t}
 [pg,cg,vg].forEach(i=>i.addEventListener('input',grams));
 function addCustom(){if(grams()!==350)return alert('Complete 350g');if(!protein.value||!carb.value||!veg.value)return alert('Selecione 1 item de cada categoria');cart.push({type:'custom',protein:protein.value,pg:+pg.value,carb:carb.value,cg:+cg.value,veg:veg.value,vg:+vg.value});save()}
-function addReady(name,qty=1){qty=parseInt(qty)||1;for(let i=0;i<qty;i++){cart.push({type:'ready',name});}({type:'ready',name});save()}
+function addReady(name,qty=1){qty=parseInt(qty)||1;for(let i=0;i<qty;i++){cart.push({type:'ready',name})}save()}
 function openCart(){render();cartModal.style.display='flex'}
 function closeCart(){cartModal.style.display='none'}
 function save(){localStorage.setItem('cart',JSON.stringify(cart));cartCount.textContent=cart.length}
-function render(){items.innerHTML='';cart.forEach((item,i)=>{if(item.type==='ready'){items.innerHTML+=`<div class='cart-item'><b>${item.name}</b><br>350g<br><button onclick='cart.splice(${i},1);save();render()'>Remover</button></div>`}else{items.innerHTML+=`<div class='cart-item'><b>Marmita personalizada</b><br>${item.protein} (${item.pg}g)<br>${item.carb} (${item.cg}g)<br>${item.veg} (${item.vg}g)<br><button onclick='cart.splice(${i},1);save();render()'>Remover</button></div>`}});const paid=cart.length;const bonus=Math.floor(paid/10);const total=paid+bonus;const value=paid*PRICE;summary.innerHTML=`<b>Resumo do pedido</b><br><br>Marmitas pagas: ${paid}<br>Marmitas bônus: ${bonus}<br><b>Total de marmitas: ${total}</b><br><br><b>Total a pagar: R$ ${value.toFixed(2)}</b><br><span style='font-size:12px;color:#7d2430'>Promoção automática: a cada 10 marmitas pagas, ganhe +1 grátis</span>`;qrcode.innerHTML='';new QRCode(qrcode,{text:'PIX R$ '+value.toFixed(2),width:160,height:160})}
-function checkout(){if(!clientName.value||!clientPhone.value||!clientAddress.value)return alert('Preencha seus dados');let msg=`Olá! Pedido Marmita das Meninas:%0A%0ANome: ${clientName.value}%0AWhatsApp: ${clientPhone.value}%0AEndereço: ${clientAddress.value}%0A%0A`;cart.forEach((i,idx)=>{msg+=`• ${i.type==='ready'?i.name:'Marmita personalizada'}%0A`});msg+=`%0ATotal: R$ ${(cart.length*PRICE).toFixed(2)}%0A%0AConsultar taxa de entrega.`;window.open(`https://wa.me/${WHATS}?text=${msg}`,'_blank')}
+function render(){items.innerHTML='';cart.forEach((item,i)=>{items.innerHTML+=`<div class='cart-item'><b>${item.type==='ready'?item.name:'Marmita personalizada'}</b><br><button onclick='cart.splice(${i},1);save();render()'>Remover</button></div>`});const paid=cart.length;const bonus=Math.floor(paid/10);const total=paid+bonus;const value=paid*PRICE;summary.innerHTML=`Marmitas pagas: ${paid}<br>Marmitas bônus: ${bonus}<br><b>Total: ${total}</b><br><b>R$ ${value.toFixed(2)}</b>`;qrcode.innerHTML='';new QRCode(qrcode,{text:'PIX R$ '+value.toFixed(2),width:160,height:160})}
+function checkout(){if(!clientName.value||!clientPhone.value||!clientAddress.value)return alert('Preencha seus dados');let msg=`Olá! Pedido Marmita das Meninas:%0A%0ANome: ${clientName.value}%0AWhatsApp: ${clientPhone.value}%0AEndereço: ${clientAddress.value}%0A%0A`;cart.forEach(i=>{msg+=`• ${i.type==='ready'?i.name:'Marmita personalizada'}%0A`});msg+=`%0ATotal: R$ ${(cart.length*PRICE).toFixed(2)}`;window.open(`https://wa.me/${WHATS}?text=${msg}`,'_blank')}
 save();
 </script>
 </body>
