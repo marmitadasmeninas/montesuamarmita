@@ -1,109 +1,87 @@
-```html
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8">
-<title>Marmita das Meninas</title>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-
+<title>Marmita das Meninas • Monte sua Marmita</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 <style>
 :root{
-  --primary:#c0366c;
-  --secondary:#fff1f6;
-  --accent:#f5b5cc;
-  --dark:#4a1f33;
+--primary:#d63384;--accent:#f6b0d3;--bg:#fff6fa;--card:#fff;--text:#2b2430;--muted:#7d2430;
 }
 *{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:Poppins,system-ui;
-  background:var(--secondary);
-  color:var(--dark);
-}
-.container{
-  max-width:480px;
-  margin:auto;
-  padding:16px;
-}
-header{text-align:center;margin-bottom:16px}
-header h1{margin:0;font-size:22px}
-.badge{background:var(--primary);color:#fff;padding:6px 12px;border-radius:999px;font-size:12px}
-.card{background:#fff;border-radius:18px;padding:16px;margin-bottom:16px;box-shadow:0 6px 20px rgba(0,0,0,.06)}
-select,input{width:100%;padding:12px;border-radius:12px;border:1px solid #ddd;margin-bottom:10px;font-size:15px}
-.btn{width:100%;padding:14px;border:none;border-radius:14px;font-weight:600;font-size:16px;cursor:pointer}
-.btn.primary{background:var(--primary);color:#fff}
-.btn.ghost{background:#fff;border:1px solid #ccc}
-.suggestion{border:1px solid var(--accent);border-radius:14px;padding:12px;margin-bottom:10px}
-.suggestion strong{display:block;margin-bottom:6px}
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;z-index:10}
-.modalBox{background:#fff;width:90%;max-width:420px;border-radius:18px;padding:18px}
-.item{border-bottom:1px solid #eee;padding:10px 0;font-size:14px}
-.tag{background:var(--accent);color:#6a1238;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:600}
+body{margin:0;font-family:Inter;background:var(--bg);color:var(--text)}
+header{position:sticky;top:0;background:#fff;padding:14px 16px;display:flex;justify-content:space-between;box-shadow:0 4px 14px rgba(0,0,0,.06)}
+h1{font-family:'Playfair Display';font-size:18px;margin:0}
+.cart-btn{background:var(--primary);color:#fff;border:none;padding:8px 14px;border-radius:999px;font-weight:700}
+main{max-width:760px;margin:auto;padding:16px}
+.card{background:#fff;border-radius:18px;padding:16px;margin-bottom:16px;box-shadow:0 12px 30px rgba(0,0,0,.08)}
+h2{font-size:16px;margin:0 0 10px}
+label{font-size:13px;color:var(--muted)}
+select,input{width:100%;padding:10px;border-radius:12px;border:1px solid #e5c9d6;margin-top:6px}
+.row{display:grid;grid-template-columns:1fr 110px;gap:10px;margin-bottom:12px}
+.btn{width:100%;padding:14px;border:none;border-radius:14px;font-weight:700;margin-top:8px}
+.btn-primary{background:var(--primary);color:#fff}
+.btn-outline{border:2px solid var(--primary);background:transparent;color:var(--primary)}
+.kits,.week{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.kit,.week-item{border:2px dashed var(--accent);border-radius:14px;padding:10px;text-align:center}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:flex-end}
+.modal-content{background:#fff;border-radius:22px 22px 0 0;padding:16px;width:100%;max-height:90vh;overflow:auto}
+.cart-item{border-bottom:1px solid #eee;padding:10px 0;font-size:14px}
+.cart-item button{border:none;background:none;color:#b72b3f;font-weight:700}
+.pix-box{background:#fef1f6;border-radius:16px;padding:14px;margin-top:12px;text-align:center}
+footer{text-align:center;font-size:12px;color:#888;padding:20px}
 </style>
 </head>
 <body>
-<div class="container">
 <header>
 <h1>Marmita das Meninas</h1>
-<span class="badge" id="cartCount">0 marmitas</span>
+<button class="cart-btn" onclick="openCart()">🛒 <span id="cartCount">0</span></button>
 </header>
-
+<main>
 <div class="card">
-<h3>🥗 Sugestões prontas</h3>
-<div class="suggestion"><strong>Fit Clássica</strong>Frango + Arroz + Brócolis<br><button class="btn ghost" onclick="addSug('Frango','Arroz','Brócolis')">Adicionar</button></div>
-<div class="suggestion"><strong>Caseira</strong>Carne de panela + Purê + Cenoura<br><button class="btn ghost" onclick="addSug('Carne de panela','Purê','Cenoura')">Adicionar</button></div>
-<div class="suggestion"><strong>Leve Veg</strong>Grão de bico + Batata doce + Abóbora<br><button class="btn ghost" onclick="addSug('Grão de bico','Batata doce','Abóbora')">Adicionar</button></div>
-<div class="suggestion"><strong>Executiva</strong>Peixe + Arroz + Beterraba<br><button class="btn ghost" onclick="addSug('Peixe','Arroz','Beterraba')">Adicionar</button></div>
+<h2>Sabores da semana</h2>
+<div class="week">
+<div class="week-item">Frango grelhado + arroz + legumes<button class="btn btn-outline" onclick="addReady()">Adicionar</button></div>
+<div class="week-item">Carne de panela + purê + cenoura<button class="btn btn-outline" onclick="addReady()">Adicionar</button></div>
+<div class="week-item">Peixe grelhado + batata doce<button class="btn btn-outline" onclick="addReady()">Adicionar</button></div>
 </div>
-
+</div>
 <div class="card">
-<h3>Monte sua marmita (300g)</h3>
-<select id="protein"><option value="">Proteína</option><option>Carne de panela</option><option>Carne em tiras</option><option>Carne moída</option><option>Carne suína</option><option>Filé de frango</option><option>Filé de peixe</option><option>Grão de bico</option></select>
-<select id="carb"><option value="">Carboidrato</option><option>Arroz</option><option>Macarrão</option><option>Batata doce</option><option>Batata inglesa</option><option>Aipim</option><option>Purê</option></select>
-<select id="veg"><option value="">Legume</option><option>Beterraba</option><option>Cenoura</option><option>Brócolis</option><option>Abóbora</option></select>
-<input type="number" id="qty" value="1" min="1">
-<button class="btn primary" onclick="addCustom()">Adicionar</button>
+<h2>Kits rápidos</h2>
+<div class="kits">
+<div class="kit">5 marmitas<br><b>R$95</b><button class="btn btn-outline" onclick="addKit(5)">Adicionar</button></div>
+<div class="kit">10 marmitas<br><b>R$190</b><br><small>+1 grátis</small><button class="btn btn-outline" onclick="addKit(10)">Adicionar</button></div>
+<div class="kit">20 marmitas<br><b>R$380</b><br><small>+2 grátis</small><button class="btn btn-outline" onclick="addKit(20)">Adicionar</button></div>
 </div>
-
-<button class="btn ghost" onclick="openCart()">Ver carrinho</button>
 </div>
-
-<div class="modal" id="cartModal"><div class="modalBox">
-<h3>Seu pedido</h3>
-<input id="name" placeholder="Seu nome">
-<input id="address" placeholder="Endereço de entrega">
-<div id="items"></div>
-<p><strong>Subtotal:</strong> R$ <span id="subtotal"></span></p>
-<p><strong>Desconto:</strong> R$ <span id="discount"></span></p>
-<p><strong>Total:</strong> R$ <span id="total"></span></p>
-<button class="btn primary" onclick="openPix()">Pagar com Pix</button>
-<button class="btn ghost" onclick="sendWhats()">Enviar no WhatsApp</button>
-<button class="btn ghost" onclick="closeCart()">Fechar</button>
-</div></div>
-
-<div class="modal" id="pixModal"><div class="modalBox" style="text-align:center">
-<h3>Pagamento via Pix</h3>
-<img src="pix.png" style="width:220px;max-width:100%">
-<button class="btn primary" onclick="copyPix()">Copiar Pix</button>
-<button class="btn ghost" onclick="closePix()">Fechar</button>
-</div></div>
-
+<div class="card">
+<h2>Monte sua marmita (350g)</h2>
+<div style="background:#f3d2e1;border-radius:999px;height:12px;overflow:hidden"><div id="bar" style="height:100%;width:0%;background:var(--primary)"></div></div>
+<div id="barText" style="font-size:12px">0g de 350g</div>
+<label>Proteína</label><div class="row"><select id="protein"><option></option><option>Carne de panela</option><option>Carne moída</option><option>Frango grelhado</option></select><input id="pg" type="number" value="150" min="50" max="250"></div>
+<label>Carboidrato</label><div class="row"><select id="carb"><option></option><option>Arroz</option><option>Batata doce</option><option>Purê</option></select><input id="cg" type="number" value="150" min="50" max="250"></div>
+<label>Legume</label><div class="row"><select id="veg"><option></option><option>Cenoura</option><option>Brócolis</option></select><input id="vg" type="number" value="50" min="50" max="250"></div>
+<button class="btn btn-primary" onclick="addCustom()">Adicionar • R$19</button>
+</div>
+</main>
+<div class="modal" id="cartModal"><div class="modal-content"><h2>Carrinho</h2><div id="items"></div><input id="coupon" placeholder="Cupom promocional"><div id="summary"></div><div class="pix-box"><div id="qrcode"></div><div id="pix">SEU_PIX_AQUI</div></div><button class="btn btn-primary" onclick="checkout()">Finalizar</button><button class="btn btn-outline" onclick="closeCart()">Fechar</button></div></div>
+<footer>Marmita das Meninas 💗</footer>
 <script>
-const PRICE=19;
-const cart=[];
-function update(){cartCount.innerText=cart.reduce((s,i)=>s+i.q,0)+' marmitas';}
-function addSug(p,c,v){cart.push({p,c,v,q:1});update();alert('Adicionado!');}
-function addCustom(){if(!protein.value||!carb.value||!veg.value)return alert('Preencha tudo');cart.push({p:protein.value,c:carb.value,v:veg.value,q:+qty.value});update();alert('Adicionado!');}
-function openCart(){render();cartModal.style.display='flex';}
-function closeCart(){cartModal.style.display='none';}
-function render(){items.innerHTML='';let total=0;cart.forEach(i=>{total+=i.q;items.innerHTML+=`<div class='item'>${i.q}x ${i.p}, ${i.c}, ${i.v}</div>`});let subtotal=total*PRICE;let disc=total>=10?subtotal*.1:total>=5?subtotal*.05:0;document.getElementById('subtotal').innerText=subtotal.toFixed(2);document.getElementById('discount').innerText=disc.toFixed(2);document.getElementById('total').innerText=(subtotal-disc).toFixed(2);} 
-function openPix(){pixModal.style.display='flex';}
-function closePix(){pixModal.style.display='none';}
-function copyPix(){navigator.clipboard.writeText('SUA_CHAVE_PIX_AQUI');alert('Pix copiado!');}
-function sendWhats(){let msg=`Pedido Marmita das Meninas%0ACliente: ${name.value}%0AEndereço: ${address.value}%0A`;cart.forEach(i=>msg+=`- ${i.q}x ${i.p}, ${i.c}, ${i.v}%0A`);msg+=`Total: R$ ${document.getElementById('total').innerText}`;window.open('https://wa.me/55SEU_WHATSAPP?text='+msg,'_blank');}
+const PRICE=19;let cart=JSON.parse(localStorage.getItem('cart')||'[]');
+function grams(){const t=+pg.value+ +cg.value+ +vg.value;bar.style.width=(t/350*100)+'%';barText.textContent=t+'g de 350g';return t}
+[pg,cg,vg].forEach(i=>i.oninput=grams);
+function addCustom(){if(grams()!=350)return alert('Complete 350g');cart.push('m');save()}
+function addKit(q){for(let i=0;i<q;i++)cart.push('k');save()}
+function addReady(){cart.push('r');save()}
+function openCart(){render();cartModal.style.display='flex'}
+function closeCart(){cartModal.style.display='none'}
+function save(){localStorage.setItem('cart',JSON.stringify(cart));cartCount.textContent=cart.length}
+function render(){items.innerHTML='';cart.forEach((_,i)=>items.innerHTML+=`<div class='cart-item'>Marmita ${i+1} <button onclick='cart.splice(${i},1);save();render()'>Remover</button></div>`);
+let paid=cart.length;let bonus=Math.floor(paid/10);let total=paid+bonus;let value=paid*PRICE;let disc=coupon.value=='MENINAS5'?0.95:1;summary.innerHTML=`Pagas: ${paid}<br>Bônus: ${bonus}<br>Total: ${total}<br><b>R$ ${(value*disc).toFixed(2)}</b>`;qrcode.innerHTML='';new QRCode(qrcode,{text:'PIX R$ '+(value*disc).toFixed(2),width:160,height:160})}
+function checkout(){window.open('https://wa.me/55SEUNUMERO?text=Pedido Marmita das Meninas','_blank');cart=[];save();closeCart()}
+save();
 </script>
 </body>
 </html>
-```
