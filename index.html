@@ -13,7 +13,7 @@
       --bg2: #fff1f6;
       --primary: #d63384; /* será sobrescrito por JS ao enviar logo */
       --accent: #f6b0d3;
-      --muted: #7d6b7d;
+      --muted: #7d2430;
       --card: #ffffff;
       --shadow: 0 6px 24px rgba(139,66,100,0.12);
       --radius: 14px;
@@ -106,6 +106,7 @@
     .colorPick{display:flex;gap:8px;align-items:center;margin-top:8px}
     .colorPick input[type="color"]{width:40px;height:36px;padding:0;border-radius:8px;border:1px solid rgba(0,0,0,0.06)}
     .help{font-size:12px;color:var(--muted)}
+    .cartBadge{background:var(--primary);color:white;padding:6px 10px;border-radius:999px;font-weight:700;margin-left:8px}
     @media (max-width:980px){.container{grid-template-columns:1fr;padding:16px}.summary{order:2}}
   </style>
 </head>
@@ -117,7 +118,10 @@
       </div>
       <div style="flex:1">
         <h1>Marmita das Meninas</h1>
-        <p class="lead">Monte sua marmita premium de 300g — escolha 1 proteína, 1 carboidrato e 1 legume.</p>
+        <p class="lead">Monte sua marmita premium de 350g — escolha 1 proteína, 1 carboidrato e 1 legume.</p>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <div class="help">Carrinho</div><div id="cartCount" class="cartBadge">0</div>
       </div>
     </header>
 
@@ -156,12 +160,14 @@
               <option>Carne de panela</option>
               <option>Carne em tiras</option>
               <option>Carne moída</option>
-              <option>Carne suína</option>
-              <option>Filé de frango</option>
-              <option>Filé de peixe</option>
+              <option>Filé de frango grelhado</option>
+              <option>Filé de frango à milanesa</option>
+              <option>Filé de peixe grelhado</option>
+              <option>Filé de peixe à milanesa</option>
+              <option>Pernil suíno</option>
               <option>Grão de bico</option>
             </select>
-            <input id="proteinGrams" type="number" min="0" max="300" step="10" value="100" aria-label="gramas proteína"> g
+            <input id="proteinGrams" type="number" min="50" max="250" step="10" value="150" aria-label="gramas proteína"> g
           </div>
         </div>
 
@@ -172,11 +178,16 @@
               <option value="">— selecione —</option>
               <option>Arroz</option>
               <option>Macarrão</option>
-              <option>Batata doce (cozida/purê)</option>
-              <option>Batata inglesa (cozida/purê)</option>
-              <option>Aipim (cozido/purê)</option>
+              <option>Batata doce cozida</option>
+              <option>Purê de batata doce</option>
+              <option>Batata inglesa cozida</option>
+              <option>Purê de batata inglesa</option>
+              <option>Aipim cozido</option>
+              <option>Purê de aipim</option>
+              <option>Abóbora cabotiá cozida</option>
+              <option>Purê de abóbora cabotiá</option>
             </select>
-            <input id="carbGrams" type="number" min="0" max="300" step="10" value="120" aria-label="gramas carboidrato"> g
+            <input id="carbGrams" type="number" min="50" max="250" step="10" value="150" aria-label="gramas carboidrato"> g
           </div>
         </div>
 
@@ -188,20 +199,21 @@
               <option>Beterraba</option>
               <option>Cenoura</option>
               <option>Brócolis</option>
-              <option>Couve-flor</option>
-              <option>Abóbora (cozida/purê)</option>
+              <option>Couve flor</option>
+              <option>Chuchu</option>
+              <option>Mix de legumes</option>
             </select>
-            <input id="vegGrams" type="number" min="0" max="300" step="10" value="80" aria-label="gramas legume"> g
+            <input id="vegGrams" type="number" min="50" max="250" step="10" value="50" aria-label="gramas legume"> g
           </div>
         </div>
 
         <div class="controls" style="margin-top:12px">
-          <button class="btn" id="distributeBtn">Distribuir 300g automaticamente</button>
+          <button class="btn" id="distributeBtn">Distribuir 350g automaticamente</button>
           <button class="btn ghost" id="clearSel">Limpar seleção</button>
-          <div style="margin-left:auto" class="help">Soma das 3 categorias deve ser <strong>300g</strong>.</div>
+          <div style="margin-left:auto" class="help">Soma das 3 categorias deve ser <strong>350g</strong>.</div>
         </div>
 
-        <div style="margin-top:10px" class="help">Total por marmita: <strong id="sumGrams">0</strong>g — <span id="sumNote">faça 300g</span></div>
+        <div style="margin-top:10px" class="help">Total por marmita: <strong id="sumGrams">0</strong>g — <span id="sumNote">faça 350g</span></div>
       </div>
 
       <div class="section">
@@ -209,6 +221,13 @@
         <label class="small">Link de pagamento (PIX) — cole aqui para redirecionamento ao finalizar</label>
         <input id="pixLink" type="url" placeholder="https://pagamento.exemplo/pix/..." style="width:100%">
         <div class="help" style="margin-top:6px">Se o link estiver preenchido, ao clicar em Finalizar pedido você será redirecionado para esse link (aberto em nova aba).</div>
+      </div>
+
+      <div class="section">
+        <h3>Configurar link de pagamento PayPal</h3>
+        <label class="small">Link PayPal (ex.: https://paypal.me/seunome ou link de checkout)</label>
+        <input id="paypalLink" type="url" placeholder="https://paypal.me/seunome ou https://www.paypal.com/..." style="width:100%">
+        <div class="help" style="margin-top:6px">Se preenchido, o botão Checkout PayPal irá redirecionar para o seu link do PayPal em nova aba. Caso contrário, será usado PIX (se houver).</div>
       </div>
     </section>
 
@@ -220,14 +239,14 @@
           <div class="muted">Preço unitário</div>
           <div>R$ 19,00</div>
         </div>
-        <div class="muted">Tamanho: <strong>300g</strong></div>
+        <div class="muted">Tamanho: <strong>350g</strong></div>
       </div>
 
       <div style="margin-top:6px">
         <label class="muted">Quantas marmitas deseja comprar?</label>
         <div style="margin-top:6px" class="row">
           <input id="qty" type="number" min="1" step="1" value="1" aria-label="Quantidade de marmitas">
-          <div style="flex:1" class="help">Promoção: a cada 10 pagas ganha +1.</div>
+          <div style="flex:1" class="help">Promoção: a cada 10 pagas ganha +1; a cada 20 pagas ganha +2 e assim por diante.</div>
         </div>
       </div>
 
@@ -255,11 +274,13 @@
       <div id="orderError" class="error" role="alert" style="display:none"></div>
 
       <div style="margin-top:14px;display:flex;gap:10px;align-items:center">
-        <button class="btn" id="orderButton">Finalizar pedido</button>
+        <button class="btn" id="addToCartBtn">Adicionar ao carrinho</button>
+        <button class="btn" id="checkoutPaypalBtn">Checkout PayPal</button>
+        <button class="btn ghost" id="orderButton">Finalizar pedido</button>
         <button class="btn ghost" id="previewBtn">Visualizar marmita</button>
       </div>
 
-      <p class="note" style="margin-top:10px">Confirme que a soma das 3 categorias é 300g antes de finalizar. O redirecionamento para PIX abrirá em nova aba se um link estiver configurado.</p>
+      <p class="note" style="margin-top:10px">Confirme que a soma das 3 categorias é 350g antes de adicionar ao carrinho ou finalizar. O redirecionamento para PayPal ou PIX abrirá em nova aba se um link estiver configurado.</p>
     </aside>
 
     <footer>Marmita das Meninas — sabor, carinho e prática. | Todos os preços em reais (BRL)</footer>
@@ -268,6 +289,7 @@
   <script>
     (function(){
       const PRICE = 19.00;
+      const TOTAL_GRAMS = 350;
       const proteinSelect = document.getElementById('proteinSelect');
       const carbSelect = document.getElementById('carbSelect');
       const vegSelect = document.getElementById('vegSelect');
@@ -288,6 +310,10 @@
       const distributeBtn = document.getElementById('distributeBtn');
       const clearSel = document.getElementById('clearSel');
       const pixLinkEl = document.getElementById('pixLink');
+      const paypalLinkEl = document.getElementById('paypalLink');
+      const addToCartBtn = document.getElementById('addToCartBtn');
+      const checkoutPaypalBtn = document.getElementById('checkoutPaypalBtn');
+      const cartCountEl = document.getElementById('cartCount');
 
       // Logo & theme
       const logoInput = document.getElementById('logoInput');
@@ -307,14 +333,14 @@
       function updateSumUI(){
         const s = sumGrams();
         sumGramsEl.textContent = s;
-        if(s === 300){
-          sumNote.textContent = 'pronto — 300g';
+        if(s === TOTAL_GRAMS){
+          sumNote.textContent = 'pronto — ' + TOTAL_GRAMS + 'g';
           sumNote.style.color = '';
-        } else if(s < 300){
-          sumNote.textContent = 'faltam ' + (300 - s) + 'g';
+        } else if(s < TOTAL_GRAMS){
+          sumNote.textContent = 'faltam ' + (TOTAL_GRAMS - s) + 'g';
           sumNote.style.color = '#b72b3f';
         } else {
-          sumNote.textContent = 'excedeu em ' + (s - 300) + 'g';
+          sumNote.textContent = 'excedeu em ' + (s - TOTAL_GRAMS) + 'g';
           sumNote.style.color = '#b72b3f';
         }
         updatePriceUI();
@@ -334,33 +360,44 @@
         effectivePriceEl.textContent = 'Preço efetivo por marmita: R$ ' + effective.toFixed(2);
 
         const grams = sumGrams();
-        if(grams !== 300){
+        if(grams !== TOTAL_GRAMS){
           orderError.style.display = 'block';
-          orderError.textContent = 'A soma das 3 categorias precisa ser 300g antes de finalizar.';
+          orderError.textContent = 'A soma das 3 categorias precisa ser ' + TOTAL_GRAMS + 'g antes de finalizar.';
           orderButton.disabled = true;
+          addToCartBtn.disabled = true;
           orderButton.style.opacity = 0.6;
+          addToCartBtn.style.opacity = 0.6;
         } else if(qty < 1){
           orderError.style.display = 'block';
           orderError.textContent = 'Escolha pelo menos 1 marmita.';
           orderButton.disabled = true;
+          addToCartBtn.disabled = true;
           orderButton.style.opacity = 0.6;
+          addToCartBtn.style.opacity = 0.6;
         } else if(!proteinSelect.value || !carbSelect.value || !vegSelect.value){
           orderError.style.display = 'block';
           orderError.textContent = 'Selecione 1 opção em cada categoria (proteína, carboidrato e legume).';
           orderButton.disabled = true;
+          addToCartBtn.disabled = true;
           orderButton.style.opacity = 0.6;
+          addToCartBtn.style.opacity = 0.6;
         } else {
           orderError.style.display = 'none';
           orderButton.disabled = false;
+          addToCartBtn.disabled = false;
           orderButton.style.opacity = 1;
+          addToCartBtn.style.opacity = 1;
         }
+        // update cart badge count
+        const cart = loadCart();
+        cartCountEl.textContent = cart.length || 0;
       }
 
       // events
       [proteinGrams, carbGrams, vegGrams].forEach(i=>{
         i.addEventListener('input', ()=>{
           if(i.value === '') i.value = 0;
-          i.value = Math.max(0, Math.min(300, Math.round(Number(i.value)||0)));
+          i.value = Math.max(Number(i.min||0), Math.min(Number(i.max||999), Math.round(Number(i.value)||0)));
           updateSumUI();
         });
       });
@@ -376,11 +413,11 @@
       });
 
       distributeBtn.addEventListener('click', ()=>{
-        // Distribui 300g: dividir entre categorias (proteína, carbo, legume)
-        const p = Math.floor(300/3);
+        // Distribui TOTAL_GRAMS: dividir entre categorias (proteína, carbo, legume)
+        const p = Math.floor(TOTAL_GRAMS/3);
         proteinGrams.value = p;
         carbGrams.value = p;
-        vegGrams.value = 300 - p*2;
+        vegGrams.value = TOTAL_GRAMS - p*2;
         // auto-select first options if empty
         if(!proteinSelect.value) proteinSelect.selectedIndex = 1;
         if(!carbSelect.value) carbSelect.selectedIndex = 1;
@@ -404,42 +441,86 @@
           return;
         }
         const s = sumGrams();
-        let text = 'Visualização da marmita (por unidade):\\n\\n';
-        if(proteinSelect.value) text += proteinSelect.value + ': ' + (Number(proteinGrams.value)||0) + 'g\\n';
-        if(carbSelect.value) text += carbSelect.value + ': ' + (Number(carbGrams.value)||0) + 'g\\n';
-        if(vegSelect.value) text += vegSelect.value + ': ' + (Number(vegGrams.value)||0) + 'g\\n';
-        text += '\\nTotal: ' + s + 'g';
+        let text = 'Visualização da marmita (por unidade):\n\n';
+        if(proteinSelect.value) text += proteinSelect.value + ': ' + (Number(proteinGrams.value)||0) + 'g\n';
+        if(carbSelect.value) text += carbSelect.value + ': ' + (Number(carbGrams.value)||0) + 'g\n';
+        if(vegSelect.value) text += vegSelect.value + ': ' + (Number(vegGrams.value)||0) + 'g\n';
+        text += '\nTotal: ' + s + 'g';
         alert(text);
       });
 
-      orderButton.addEventListener('click', ()=>{
-        if(orderButton.disabled) return;
-        const qty = Math.floor(Number(qtyEl.value)||0);
+      function buildSummary(qty){
         const free = calcFree(qty);
         const total = qty + free;
         const totalPrice = qty * PRICE;
-        const summary = [
-          'Pedido criado:',
-          '',
+        const items = [
           'Marmitas pagas: ' + qty,
           'Marmitas bônus: ' + free,
           'Total recebido: ' + total,
           'Preço total: R$ ' + totalPrice.toFixed(2),
           '',
-          'Composição por marmita:'
+          'Composição por marmita:',
+          '- ' + proteinSelect.value + ': ' + (Number(proteinGrams.value)||0) + 'g',
+          '- ' + carbSelect.value + ': ' + (Number(carbGrams.value)||0) + 'g',
+          '- ' + vegSelect.value + ': ' + (Number(vegGrams.value)||0) + 'g'
         ];
-        summary.push('- ' + proteinSelect.value + ': ' + (Number(proteinGrams.value)||0) + 'g');
-        summary.push('- ' + carbSelect.value + ': ' + (Number(carbGrams.value)||0) + 'g');
-        summary.push('- ' + vegSelect.value + ': ' + (Number(vegGrams.value)||0) + 'g');
+        return items.join('\n');
+      }
 
+      orderButton.addEventListener('click', ()=>{
+        if(orderButton.disabled) return;
+        const qty = Math.floor(Number(qtyEl.value)||0);
+        const paypalLink = (paypalLinkEl.value || '').trim();
         const pixLink = (pixLinkEl.value || '').trim();
-        if(pixLink){
-          // abrir link em nova aba e também mostrar resumo
+        const summary = buildSummary(qty);
+        if(paypalLink){
+          window.open(paypalLink, '_blank');
+          alert(summary);
+        } else if(pixLink){
           window.open(pixLink, '_blank');
-          alert(summary.join('\\n'));
+          alert(summary);
         } else {
-          // simulação
-          alert(summary.join('\\n') + '\\n\\nNenhum link PIX configurado — esta é uma simulação.');
+          alert(summary + '\n\nNenhum link de pagamento configurado — esta é uma simulação.');
+        }
+      });
+
+      // CART
+      function loadCart(){
+        try{ return JSON.parse(localStorage.getItem('mm_cart')||'[]'); }catch(e){ return []; }
+      }
+      function saveCart(cart){ localStorage.setItem('mm_cart', JSON.stringify(cart)); }
+
+      addToCartBtn.addEventListener('click', ()=>{
+        if(addToCartBtn.disabled) return;
+        const qty = Math.max(1, Math.floor(Number(qtyEl.value)||1));
+        const item = {
+          id: Date.now(),
+          qty,
+          paidQty: qty,
+          freeQty: calcFree(qty),
+          totalRecebido: qty + calcFree(qty),
+          unitPrice: PRICE,
+          totalPrice: (qty * PRICE),
+          composition: {
+            protein: proteinSelect.value, proteinGrams: Number(proteinGrams.value)||0,
+            carb: carbSelect.value, carbGrams: Number(carbGrams.value)||0,
+            veg: vegSelect.value, vegGrams: Number(vegGrams.value)||0
+          },
+          createdAt: new Date().toISOString()
+        };
+        const cart = loadCart();
+        cart.push(item);
+        saveCart(cart);
+        cartCountEl.textContent = cart.length;
+        alert('Item adicionado ao carrinho. Total de itens no carrinho: ' + cart.length);
+      });
+
+      checkoutPaypalBtn.addEventListener('click', ()=>{
+        const paypalLink = (paypalLinkEl.value || '').trim();
+        if(paypalLink){
+          window.open(paypalLink, '_blank');
+        } else {
+          alert('Link do PayPal ainda não configurado. Você pode configurar na seção de pagamentos ou finalizar usando PIX (se configurado).');
         }
       });
 
@@ -455,16 +536,11 @@
         return '#' + [r,g,b].map(x=> x.toString(16).padStart(2,'0')).join('');
       }
 
-      // compute average color (simple) then generate accent (lighter pastel)
       function computeThemeFromImage(img){
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
         const w = 120, h = 120;
         canvas.width = w; canvas.height = h;
-        // draw centered, maintain aspect ratio
-        let iw = img.naturalWidth, ih = img.naturalHeight;
-        let sx=0, sy=0, sw=iw, sh=ih;
-        // draw resized
         ctx.drawImage(img, 0, 0, w, h);
         const data = ctx.getImageData(0,0,w,h).data;
         let r=0,g=0,b=0,count=0;
@@ -475,13 +551,11 @@
         }
         if(!count) return null;
         r = Math.round(r/count); g = Math.round(g/count); b = Math.round(b/count);
-        // derive a lighter accent by increasing brightness
         const accent = lightenRgb(r,g,b, 0.35);
         return {primary: hexFromRgb(r,g,b), accent: hexFromRgb(accent.r, accent.g, accent.b)};
       }
 
       function lightenRgb(r,g,b, amount){
-        // amount 0..1 increases towards white
         const nr = Math.round(r + (255 - r)*amount);
         const ng = Math.round(g + (255 - g)*amount);
         const nb = Math.round(b + (255 - b)*amount);
@@ -495,25 +569,21 @@
         reader.onload = function(ev){
           siteLogo.src = ev.target.result;
           siteLogo.style.display = 'block';
-          // compute theme when image loads
           const img = new Image();
           img.onload = function(){
             const theme = computeThemeFromImage(img);
             if(theme){
               setTheme(theme.primary, theme.accent);
-              // persist theme in localStorage
               localStorage.setItem('mm_theme_primary', theme.primary);
               localStorage.setItem('mm_theme_accent', theme.accent);
             }
           };
           img.src = ev.target.result;
-          // also persist logo dataURL
           localStorage.setItem('mm_logo_data', ev.target.result);
         };
         reader.readAsDataURL(file);
       });
 
-      // manual color change
       primaryColor.addEventListener('input', ()=> {
         document.documentElement.style.setProperty('--primary', primaryColor.value);
         localStorage.setItem('mm_theme_primary', primaryColor.value);
@@ -527,12 +597,10 @@
         localStorage.removeItem('mm_theme_primary');
         localStorage.removeItem('mm_theme_accent');
         localStorage.removeItem('mm_logo_data');
-        // restore defaults
         setTheme('#d63384','#f6b0d3');
         siteLogo.style.display = 'none';
       });
 
-      // load persisted theme/logo
       (function loadPersist(){
         const p = localStorage.getItem('mm_theme_primary');
         const a = localStorage.getItem('mm_theme_accent');
@@ -541,18 +609,20 @@
         if(l){
           siteLogo.src = l;
           siteLogo.style.display = 'block';
-        } else {
-          // try to load assets/logo.png (img tag already has that src)
-          // if it failed to load, onerror hides it
         }
-        // load pix link if any
         const savedPix = localStorage.getItem('mm_pix_link');
         if(savedPix) pixLinkEl.value = savedPix;
+        const savedPay = localStorage.getItem('mm_paypal_link');
+        if(savedPay) paypalLinkEl.value = savedPay;
+        const cart = loadCart();
+        cartCountEl.textContent = cart.length || 0;
       })();
 
-      // persist pix link on change
       pixLinkEl.addEventListener('change', ()=> {
         localStorage.setItem('mm_pix_link', pixLinkEl.value.trim());
+      });
+      paypalLinkEl.addEventListener('change', ()=> {
+        localStorage.setItem('mm_paypal_link', paypalLinkEl.value.trim());
       });
 
       // initial UI update
