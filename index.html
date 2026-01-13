@@ -1,634 +1,219 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Marmita das Meninas — Monte sua marmita</title>
+<meta charset="utf-8">
+<title>Marmita das Meninas — Monte sua marmita</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-
-  <style>
-    :root{
-      --bg1: #fff7fb;
-      --bg2: #fff1f6;
-      --primary: #d63384; /* será sobrescrito por JS ao enviar logo */
-      --accent: #f6b0d3;
-      --muted: #7d2430;
-      --card: #ffffff;
-      --shadow: 0 6px 24px rgba(139,66,100,0.12);
-      --radius: 14px;
-    }
-
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      min-height:100vh;
-      font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      background: linear-gradient(180deg, var(--bg1), var(--bg2));
-      color:#2b2430;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:28px;
-    }
-
-    .container{
-      width:100%;
-      max-width:1100px;
-      background:linear-gradient(180deg, rgba(255,255,255,0.92), rgba(255,250,251,0.9));
-      border-radius:var(--radius);
-      padding:22px;
-      box-shadow:var(--shadow);
-      display:grid;
-      grid-template-columns: 1fr 380px;
-      gap:20px;
-    }
-
-    header{
-      grid-column:1/-1;
-      display:flex;
-      align-items:center;
-      gap:14px;
-    }
-    .logoWrap{
-      width:78px;height:78px;border-radius:12px;
-      display:flex;align-items:center;justify-content:center;
-      background:linear-gradient(135deg,var(--primary),var(--accent));
-      box-shadow:0 8px 28px rgba(0,0,0,0.08);
-      overflow:hidden;
-    }
-    .logoWrap img{width:100%;height:100%;object-fit:contain;background:white;padding:8px}
-    h1{
-      margin:0;font-family:"Playfair Display";font-weight:700;font-size:20px;color:#3a2230;
-    }
-    p.lead{margin:4px 0 0 0;color:var(--muted);font-size:14px}
-
-    .builder{
-      padding:18px;
-      background:var(--card);
-      border-radius:12px;
-      box-shadow: 0 6px 18px rgba(85,51,68,0.04);
-      overflow:auto;
-      max-height:74vh;
-    }
-
-    .section{margin-bottom:18px}
-    .section h3{margin:0 0 8px 0;font-size:15px;color:#502838;font-weight:600}
-    .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-    label.small{font-size:13px;color:var(--muted);display:block;margin-bottom:6px}
-
-    select, input[type="number"], input[type="text"], input[type="url"]{
-      padding:8px;border-radius:10px;border:1px solid rgba(160,130,150,0.12);
-      font-size:14px;background:transparent;color:inherit;
-    }
-    input[type="number"]{width:120px;text-align:right}
-    select{min-width:185px}
-
-    .controls{display:flex;gap:10px;align-items:center;margin-top:10px}
-    .btn{background:var(--primary);color:white;border:none;padding:10px 14px;border-radius:10px;cursor:pointer;font-weight:600;box-shadow:0 8px 20px rgba(214,51,132,0.12)}
-    .btn.ghost{background:transparent;border:1px solid rgba(140,110,130,0.12);color:#6a4756;box-shadow:none}
-
-    .summary{padding:18px;background:linear-gradient(180deg,rgba(255,255,255,0.98),rgba(255,250,252,0.98));border-radius:12px;border:1px solid rgba(210,180,200,0.06);box-shadow:0 8px 28px rgba(120,80,100,0.04)}
-    .summary h2{margin:0 0 8px 0;font-family:"Playfair Display";font-size:18px;color:#3a2230}
-    .muted{font-weight:400;color:var(--muted);font-size:13px}
-    .stat{display:flex;justify-content:space-between;align-items:center;margin:10px 0;font-weight:700;color:#402431}
-
-    .error{color:#b72b3f;font-weight:700;margin-top:8px}
-
-    footer{grid-column:1/-1;text-align:center;margin-top:8px;font-size:13px;color:var(--muted)}
-
-    .config{display:flex;gap:8px;align-items:center;margin-top:8px}
-    input[type="file"]{display:none}
-    .fileLabel{padding:6px 10px;border-radius:8px;background:rgba(0,0,0,0.03);cursor:pointer;border:1px dashed rgba(160,130,150,0.12);font-size:13px}
-
-    .colorPick{display:flex;gap:8px;align-items:center;margin-top:8px}
-    .colorPick input[type="color"]{width:40px;height:36px;padding:0;border-radius:8px;border:1px solid rgba(0,0,0,0.06)}
-    .help{font-size:12px;color:var(--muted)}
-    .cartBadge{background:var(--primary);color:white;padding:6px 10px;border-radius:999px;font-weight:700;margin-left:8px}
-    @media (max-width:980px){.container{grid-template-columns:1fr;padding:16px}.summary{order:2}}
-  </style>
+<style>
+body{
+  font-family: Inter, system-ui, Arial;
+  background:#fff3f7;
+  margin:0;
+  padding:24px;
+  color:#3a2230;
+}
+.container{
+  max-width:1100px;
+  margin:auto;
+  background:#fff;
+  border-radius:16px;
+  padding:20px;
+  box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.badge{
+  background:#d63384;
+  color:#fff;
+  padding:6px 12px;
+  border-radius:999px;
+  font-weight:700;
+}
+.btn{
+  background:#d63384;
+  color:#fff;
+  border:none;
+  padding:10px 14px;
+  border-radius:10px;
+  cursor:pointer;
+}
+.btn.ghost{
+  background:transparent;
+  border:1px solid #ccc;
+  color:#444;
+}
+select,input{
+  padding:8px;
+  border-radius:8px;
+  border:1px solid #ccc;
+}
+section{margin-top:20px}
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.4);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:1000;
+}
+.modalBox{
+  background:#fff;
+  width:100%;
+  max-width:520px;
+  border-radius:16px;
+  padding:20px;
+}
+.item{
+  border-bottom:1px solid #eee;
+  padding:10px 0;
+}
+.tag{
+  background:#f6b0d3;
+  color:#6a1238;
+  font-size:12px;
+  padding:4px 8px;
+  border-radius:999px;
+  font-weight:700;
+}
+</style>
 </head>
+
 <body>
-  <div class="container" role="main">
-    <header>
-      <div class="logoWrap" id="logoWrap" title="Logomarca">
-        <img id="siteLogo" src="assets/logo.png" alt="Logomarca" style="display:block" onerror="this.style.display='none'">
-      </div>
-      <div style="flex:1">
-        <h1>Marmita das Meninas</h1>
-        <p class="lead">Monte sua marmita premium de 350g — escolha 1 proteína, 1 carboidrato e 1 legume.</p>
-      </div>
-      <div style="display:flex;align-items:center;gap:8px">
-        <div class="help">Carrinho</div><div id="cartCount" class="cartBadge">0</div>
-      </div>
-    </header>
+<div class="container">
 
-    <section class="builder" aria-label="Montador de marmita">
-      <div class="section">
-        <h3>Logomarca & cores</h3>
-        <div class="label-row">
-          <label class="fileLabel" for="logoInput">Enviar logomarca</label>
-          <input id="logoInput" type="file" accept="image/*">
-          <span class="help" style="margin-left:10px">Ou coloque em <code>assets/logo.png</code> no repositório</span>
-        </div>
-        <div class="colorPick">
-          <div>
-            <label class="small">Cor primária</label>
-            <input id="primaryColor" type="color" value="#d63384">
-          </div>
-          <div>
-            <label class="small">Cor de destaque</label>
-            <input id="accentColor" type="color" value="#f6b0d3">
-          </div>
-          <div style="margin-left:8px">
-            <button class="btn ghost" id="resetTheme">Resetar</button>
-          </div>
-        </div>
-        <div class="help" style="margin-top:8px">Enviar a logomarca atualizará automaticamente as cores (primária e destaque). Ajuste manualmente se necessário.</div>
-      </div>
-
-      <div class="section">
-        <h3>Escolha 1 opção por categoria</h3>
-
-        <div style="margin-top:8px">
-          <label class="small">Proteína</label>
-          <div class="row">
-            <select id="proteinSelect" aria-label="proteína">
-              <option value="">— selecione —</option>
-              <option>Carne de panela</option>
-              <option>Carne em tiras</option>
-              <option>Carne moída</option>
-              <option>Filé de frango grelhado</option>
-              <option>Filé de frango à milanesa</option>
-              <option>Filé de peixe grelhado</option>
-              <option>Filé de peixe à milanesa</option>
-              <option>Pernil suíno</option>
-              <option>Grão de bico</option>
-            </select>
-            <input id="proteinGrams" type="number" min="50" max="250" step="10" value="150" aria-label="gramas proteína"> g
-          </div>
-        </div>
-
-        <div style="margin-top:12px">
-          <label class="small">Carboidrato</label>
-          <div class="row">
-            <select id="carbSelect" aria-label="carboidrato">
-              <option value="">— selecione —</option>
-              <option>Arroz</option>
-              <option>Macarrão</option>
-              <option>Batata doce cozida</option>
-              <option>Purê de batata doce</option>
-              <option>Batata inglesa cozida</option>
-              <option>Purê de batata inglesa</option>
-              <option>Aipim cozido</option>
-              <option>Purê de aipim</option>
-              <option>Abóbora cabotiá cozida</option>
-              <option>Purê de abóbora cabotiá</option>
-            </select>
-            <input id="carbGrams" type="number" min="50" max="250" step="10" value="150" aria-label="gramas carboidrato"> g
-          </div>
-        </div>
-
-        <div style="margin-top:12px">
-          <label class="small">Legume</label>
-          <div class="row">
-            <select id="vegSelect" aria-label="legume">
-              <option value="">— selecione —</option>
-              <option>Beterraba</option>
-              <option>Cenoura</option>
-              <option>Brócolis</option>
-              <option>Couve flor</option>
-              <option>Chuchu</option>
-              <option>Mix de legumes</option>
-            </select>
-            <input id="vegGrams" type="number" min="50" max="250" step="10" value="50" aria-label="gramas legume"> g
-          </div>
-        </div>
-
-        <div class="controls" style="margin-top:12px">
-          <button class="btn" id="distributeBtn">Distribuir 350g automaticamente</button>
-          <button class="btn ghost" id="clearSel">Limpar seleção</button>
-          <div style="margin-left:auto" class="help">Soma das 3 categorias deve ser <strong>350g</strong>.</div>
-        </div>
-
-        <div style="margin-top:10px" class="help">Total por marmita: <strong id="sumGrams">0</strong>g — <span id="sumNote">faça 350g</span></div>
-      </div>
-
-      <div class="section">
-        <h3>Configurar link de pagamento PIX</h3>
-        <label class="small">Link de pagamento (PIX) — cole aqui para redirecionamento ao finalizar</label>
-        <input id="pixLink" type="url" placeholder="https://pagamento.exemplo/pix/..." style="width:100%">
-        <div class="help" style="margin-top:6px">Se o link estiver preenchido, ao clicar em Finalizar pedido você será redirecionado para esse link (aberto em nova aba).</div>
-      </div>
-
-      <div class="section">
-        <h3>Configurar link de pagamento PayPal</h3>
-        <label class="small">Link PayPal (ex.: https://paypal.me/seunome ou link de checkout)</label>
-        <input id="paypalLink" type="url" placeholder="https://paypal.me/seunome ou https://www.paypal.com/..." style="width:100%">
-        <div class="help" style="margin-top:6px">Se preenchido, o botão Checkout PayPal irá redirecionar para o seu link do PayPal em nova aba. Caso contrário, será usado PIX (se houver).</div>
-      </div>
-    </section>
-
-    <aside class="summary" aria-label="Resumo do pedido">
-      <h2>Resumo do pedido</h2>
-
-      <div class="stat">
-        <div>
-          <div class="muted">Preço unitário</div>
-          <div>R$ 19,00</div>
-        </div>
-        <div class="muted">Tamanho: <strong>350g</strong></div>
-      </div>
-
-      <div style="margin-top:6px">
-        <label class="muted">Quantas marmitas deseja comprar?</label>
-        <div style="margin-top:6px" class="row">
-          <input id="qty" type="number" min="1" step="1" value="1" aria-label="Quantidade de marmitas">
-          <div style="flex:1" class="help">Promoção: a cada 10 pagas ganha +1; a cada 20 pagas ganha +2 e assim por diante.</div>
-        </div>
-      </div>
-
-      <div style="margin-top:12px">
-        <div class="muted">Marmitas (pagas)</div>
-        <div style="font-size:18px;font-weight:700" id="paidCount">1</div>
-      </div>
-
-      <div style="margin-top:8px">
-        <div class="muted">Bônus (gratuitas)</div>
-        <div style="font-size:18px;font-weight:700;color:#6b3b54" id="freeCount">0</div>
-      </div>
-
-      <div style="margin-top:8px">
-        <div class="muted">Total de marmitas que você receberá</div>
-        <div class="total" id="totalCount">1</div>
-      </div>
-
-      <div style="margin-top:12px">
-        <div class="muted">Total a pagar</div>
-        <div style="font-size:20px;font-weight:800;color:var(--primary)" id="totalPrice">R$ 19,00</div>
-        <div class="muted small" id="effectivePrice">Preço efetivo por marmita: R$ 19,00</div>
-      </div>
-
-      <div id="orderError" class="error" role="alert" style="display:none"></div>
-
-      <div style="margin-top:14px;display:flex;gap:10px;align-items:center">
-        <button class="btn" id="addToCartBtn">Adicionar ao carrinho</button>
-        <button class="btn" id="checkoutPaypalBtn">Checkout PayPal</button>
-        <button class="btn ghost" id="orderButton">Finalizar pedido</button>
-        <button class="btn ghost" id="previewBtn">Visualizar marmita</button>
-      </div>
-
-      <p class="note" style="margin-top:10px">Confirme que a soma das 3 categorias é 350g antes de adicionar ao carrinho ou finalizar. O redirecionamento para PayPal ou PIX abrirá em nova aba se um link estiver configurado.</p>
-    </aside>
-
-    <footer>Marmita das Meninas — sabor, carinho e prática. | Todos os preços em reais (BRL)</footer>
+<header>
+  <h2>Marmita das Meninas</h2>
+  <div>
+    <button class="btn ghost" id="openCart">Carrinho</button>
+    <span class="badge" id="cartCount">0</span>
   </div>
+</header>
 
-  <script>
-    (function(){
-      const PRICE = 19.00;
-      const TOTAL_GRAMS = 350;
-      const proteinSelect = document.getElementById('proteinSelect');
-      const carbSelect = document.getElementById('carbSelect');
-      const vegSelect = document.getElementById('vegSelect');
-      const proteinGrams = document.getElementById('proteinGrams');
-      const carbGrams = document.getElementById('carbGrams');
-      const vegGrams = document.getElementById('vegGrams');
-      const sumGramsEl = document.getElementById('sumGrams');
-      const sumNote = document.getElementById('sumNote');
-      const qtyEl = document.getElementById('qty');
-      const paidCountEl = document.getElementById('paidCount');
-      const freeCountEl = document.getElementById('freeCount');
-      const totalCountEl = document.getElementById('totalCount');
-      const totalPriceEl = document.getElementById('totalPrice');
-      const effectivePriceEl = document.getElementById('effectivePrice');
-      const orderError = document.getElementById('orderError');
-      const orderButton = document.getElementById('orderButton');
-      const previewBtn = document.getElementById('previewBtn');
-      const distributeBtn = document.getElementById('distributeBtn');
-      const clearSel = document.getElementById('clearSel');
-      const pixLinkEl = document.getElementById('pixLink');
-      const paypalLinkEl = document.getElementById('paypalLink');
-      const addToCartBtn = document.getElementById('addToCartBtn');
-      const checkoutPaypalBtn = document.getElementById('checkoutPaypalBtn');
-      const cartCountEl = document.getElementById('cartCount');
+<section>
+  <h3>Monte sua marmita (350g)</h3>
 
-      // Logo & theme
-      const logoInput = document.getElementById('logoInput');
-      const siteLogo = document.getElementById('siteLogo');
-      const logoWrap = document.getElementById('logoWrap');
-      const primaryColor = document.getElementById('primaryColor');
-      const accentColor = document.getElementById('accentColor');
-      const resetThemeBtn = document.getElementById('resetTheme');
+  <select id="protein">
+    <option value="">Proteína</option>
+    <option>Carne de panela</option>
+    <option>Frango grelhado</option>
+    <option>Peixe grelhado</option>
+    <option>Grão de bico</option>
+  </select>
 
-      // helpers
-      function sumGrams(){
-        return (Number(proteinGrams.value)||0) + (Number(carbGrams.value)||0) + (Number(vegGrams.value)||0);
-      }
+  <select id="carb">
+    <option value="">Carboidrato</option>
+    <option>Arroz</option>
+    <option>Macarrão</option>
+    <option>Batata doce</option>
+    <option>Purê</option>
+  </select>
 
-      function calcFree(qty){ return Math.floor(qty / 10); }
+  <select id="veg">
+    <option value="">Legume</option>
+    <option>Brócolis</option>
+    <option>Cenoura</option>
+    <option>Abóbora</option>
+  </select>
 
-      function updateSumUI(){
-        const s = sumGrams();
-        sumGramsEl.textContent = s;
-        if(s === TOTAL_GRAMS){
-          sumNote.textContent = 'pronto — ' + TOTAL_GRAMS + 'g';
-          sumNote.style.color = '';
-        } else if(s < TOTAL_GRAMS){
-          sumNote.textContent = 'faltam ' + (TOTAL_GRAMS - s) + 'g';
-          sumNote.style.color = '#b72b3f';
-        } else {
-          sumNote.textContent = 'excedeu em ' + (s - TOTAL_GRAMS) + 'g';
-          sumNote.style.color = '#b72b3f';
-        }
-        updatePriceUI();
-      }
+  <br><br>
+  <label>Quantidade:</label>
+  <input type="number" id="qty" value="1" min="1">
 
-      function updatePriceUI(){
-        const qty = Math.max(0, Math.floor(Number(qtyEl.value)||0));
-        const free = calcFree(qty);
-        const total = qty + free;
-        const totalPrice = qty * PRICE;
-        const effective = total > 0 ? (totalPrice / total) : PRICE;
+  <br><br>
+  <button class="btn" id="add">Adicionar ao carrinho</button>
+</section>
 
-        paidCountEl.textContent = qty;
-        freeCountEl.textContent = free;
-        totalCountEl.textContent = total;
-        totalPriceEl.textContent = 'R$ ' + totalPrice.toFixed(2);
-        effectivePriceEl.textContent = 'Preço efetivo por marmita: R$ ' + effective.toFixed(2);
+</div>
 
-        const grams = sumGrams();
-        if(grams !== TOTAL_GRAMS){
-          orderError.style.display = 'block';
-          orderError.textContent = 'A soma das 3 categorias precisa ser ' + TOTAL_GRAMS + 'g antes de finalizar.';
-          orderButton.disabled = true;
-          addToCartBtn.disabled = true;
-          orderButton.style.opacity = 0.6;
-          addToCartBtn.style.opacity = 0.6;
-        } else if(qty < 1){
-          orderError.style.display = 'block';
-          orderError.textContent = 'Escolha pelo menos 1 marmita.';
-          orderButton.disabled = true;
-          addToCartBtn.disabled = true;
-          orderButton.style.opacity = 0.6;
-          addToCartBtn.style.opacity = 0.6;
-        } else if(!proteinSelect.value || !carbSelect.value || !vegSelect.value){
-          orderError.style.display = 'block';
-          orderError.textContent = 'Selecione 1 opção em cada categoria (proteína, carboidrato e legume).';
-          orderButton.disabled = true;
-          addToCartBtn.disabled = true;
-          orderButton.style.opacity = 0.6;
-          addToCartBtn.style.opacity = 0.6;
-        } else {
-          orderError.style.display = 'none';
-          orderButton.disabled = false;
-          addToCartBtn.disabled = false;
-          orderButton.style.opacity = 1;
-          addToCartBtn.style.opacity = 1;
-        }
-        // update cart badge count
-        const cart = loadCart();
-        cartCountEl.textContent = cart.length || 0;
-      }
+<!-- MODAL -->
+<div class="modal" id="cartModal">
+  <div class="modalBox">
+    <h3>Seu carrinho</h3>
 
-      // events
-      [proteinGrams, carbGrams, vegGrams].forEach(i=>{
-        i.addEventListener('input', ()=>{
-          if(i.value === '') i.value = 0;
-          i.value = Math.max(Number(i.min||0), Math.min(Number(i.max||999), Math.round(Number(i.value)||0)));
-          updateSumUI();
-        });
-      });
+    <div id="items"></div>
 
-      [proteinSelect, carbSelect, vegSelect].forEach(s=>{
-        s.addEventListener('change', updatePriceUI);
-      });
+    <p><strong>Marmitas pagas:</strong> <span id="paid">0</span></p>
+    <p><strong>Bônus:</strong> <span id="bonus">0</span> <span id="bonusTag"></span></p>
+    <p><strong>Total recebido:</strong> <span id="total"></span></p>
+    <p><strong>Total a pagar:</strong> R$ <span id="price"></span></p>
 
-      qtyEl.addEventListener('input', ()=>{
-        if(qtyEl.value === '') qtyEl.value = 0;
-        qtyEl.value = Math.max(0, Math.round(Number(qtyEl.value)||0));
-        updatePriceUI();
-      });
+    <button class="btn" id="whats">Enviar pedido no WhatsApp</button>
+    <button class="btn ghost" id="pix">Copiar Pix</button>
+    <button class="btn ghost" id="close">Fechar</button>
+  </div>
+</div>
 
-      distributeBtn.addEventListener('click', ()=>{
-        // Distribui TOTAL_GRAMS: dividir entre categorias (proteína, carbo, legume)
-        const p = Math.floor(TOTAL_GRAMS/3);
-        proteinGrams.value = p;
-        carbGrams.value = p;
-        vegGrams.value = TOTAL_GRAMS - p*2;
-        // auto-select first options if empty
-        if(!proteinSelect.value) proteinSelect.selectedIndex = 1;
-        if(!carbSelect.value) carbSelect.selectedIndex = 1;
-        if(!vegSelect.value) vegSelect.selectedIndex = 1;
-        updateSumUI();
-      });
+<script>
+const PRICE = 19;
+const cart = JSON.parse(localStorage.getItem('mm_cart')||'[]');
 
-      clearSel.addEventListener('click', ()=>{
-        proteinSelect.selectedIndex = 0;
-        carbSelect.selectedIndex = 0;
-        vegSelect.selectedIndex = 0;
-        proteinGrams.value = 0;
-        carbGrams.value = 0;
-        vegGrams.value = 0;
-        updateSumUI();
-      });
+const save = ()=>localStorage.setItem('mm_cart',JSON.stringify(cart));
+const count = ()=>document.getElementById('cartCount').innerText=cart.length;
 
-      previewBtn.addEventListener('click', ()=>{
-        if(!proteinSelect.value && !carbSelect.value && !vegSelect.value){
-          alert('Selecione ao menos uma opção (1 proteína, 1 carboidrato e 1 legume) e defina as gramas.');
-          return;
-        }
-        const s = sumGrams();
-        let text = 'Visualização da marmita (por unidade):\n\n';
-        if(proteinSelect.value) text += proteinSelect.value + ': ' + (Number(proteinGrams.value)||0) + 'g\n';
-        if(carbSelect.value) text += carbSelect.value + ': ' + (Number(carbGrams.value)||0) + 'g\n';
-        if(vegSelect.value) text += vegSelect.value + ': ' + (Number(vegGrams.value)||0) + 'g\n';
-        text += '\nTotal: ' + s + 'g';
-        alert(text);
-      });
+count();
 
-      function buildSummary(qty){
-        const free = calcFree(qty);
-        const total = qty + free;
-        const totalPrice = qty * PRICE;
-        const items = [
-          'Marmitas pagas: ' + qty,
-          'Marmitas bônus: ' + free,
-          'Total recebido: ' + total,
-          'Preço total: R$ ' + totalPrice.toFixed(2),
-          '',
-          'Composição por marmita:',
-          '- ' + proteinSelect.value + ': ' + (Number(proteinGrams.value)||0) + 'g',
-          '- ' + carbSelect.value + ': ' + (Number(carbGrams.value)||0) + 'g',
-          '- ' + vegSelect.value + ': ' + (Number(vegGrams.value)||0) + 'g'
-        ];
-        return items.join('\n');
-      }
+document.getElementById('add').onclick=()=>{
+  const p=protein.value,c=carb.value,v=veg.value,q=+qty.value;
+  if(!p||!c||!v)return alert('Selecione tudo');
+  cart.push({p,c,v,q});
+  save(); count();
+  alert('Adicionado!');
+};
 
-      orderButton.addEventListener('click', ()=>{
-        if(orderButton.disabled) return;
-        const qty = Math.floor(Number(qtyEl.value)||0);
-        const paypalLink = (paypalLinkEl.value || '').trim();
-        const pixLink = (pixLinkEl.value || '').trim();
-        const summary = buildSummary(qty);
-        if(paypalLink){
-          window.open(paypalLink, '_blank');
-          alert(summary);
-        } else if(pixLink){
-          window.open(pixLink, '_blank');
-          alert(summary);
-        } else {
-          alert(summary + '\n\nNenhum link de pagamento configurado — esta é uma simulação.');
-        }
-      });
+openCart.onclick=()=>{
+  render();
+  cartModal.style.display='flex';
+};
+close.onclick=()=>cartModal.style.display='none';
 
-      // CART
-      function loadCart(){
-        try{ return JSON.parse(localStorage.getItem('mm_cart')||'[]'); }catch(e){ return []; }
-      }
-      function saveCart(cart){ localStorage.setItem('mm_cart', JSON.stringify(cart)); }
+function render(){
+  items.innerHTML='';
+  let paid=0;
+  cart.forEach((i,idx)=>{
+    paid+=i.q;
+    items.innerHTML+=`
+      <div class="item">
+        ${i.p} • ${i.c} • ${i.v} — ${i.q}x
+        <button onclick="removeItem(${idx})">Remover</button>
+      </div>`;
+  });
+  const bonusCount=Math.floor(paid/10);
+  paid.innerText=paid;
+  bonus.innerText=bonusCount;
+  bonusTag.innerHTML=bonusCount?`<span class="tag">🎁 +${bonusCount} grátis</span>`:'';
+  total.innerText=paid+bonusCount;
+  price.innerText=(paid*PRICE).toFixed(2);
+}
 
-      addToCartBtn.addEventListener('click', ()=>{
-        if(addToCartBtn.disabled) return;
-        const qty = Math.max(1, Math.floor(Number(qtyEl.value)||1));
-        const item = {
-          id: Date.now(),
-          qty,
-          paidQty: qty,
-          freeQty: calcFree(qty),
-          totalRecebido: qty + calcFree(qty),
-          unitPrice: PRICE,
-          totalPrice: (qty * PRICE),
-          composition: {
-            protein: proteinSelect.value, proteinGrams: Number(proteinGrams.value)||0,
-            carb: carbSelect.value, carbGrams: Number(carbGrams.value)||0,
-            veg: vegSelect.value, vegGrams: Number(vegGrams.value)||0
-          },
-          createdAt: new Date().toISOString()
-        };
-        const cart = loadCart();
-        cart.push(item);
-        saveCart(cart);
-        cartCountEl.textContent = cart.length;
-        alert('Item adicionado ao carrinho. Total de itens no carrinho: ' + cart.length);
-      });
+function removeItem(i){
+  cart.splice(i,1);
+  save(); count(); render();
+}
 
-      checkoutPaypalBtn.addEventListener('click', ()=>{
-        const paypalLink = (paypalLinkEl.value || '').trim();
-        if(paypalLink){
-          window.open(paypalLink, '_blank');
-        } else {
-          alert('Link do PayPal ainda não configurado. Você pode configurar na seção de pagamentos ou finalizar usando PIX (se configurado).');
-        }
-      });
+whats.onclick=()=>{
+  let msg='Pedido Marmita das Meninas:%0A';
+  let paid=0;
+  cart.forEach(i=>{
+    paid+=i.q;
+    msg+=`- ${i.q}x ${i.p}, ${i.c}, ${i.v}%0A`;
+  });
+  const bonus=Math.floor(paid/10);
+  msg+=`%0AMarmitas pagas: ${paid}`;
+  msg+=`%0ABônus: ${bonus}`;
+  msg+=`%0ATotal: ${paid+bonus}`;
+  msg+=`%0AValor: R$ ${(paid*PRICE).toFixed(2)}`;
+  window.open('https://wa.me/55SEUNUMEROAQUI?text='+msg,'_blank');
+};
 
-      // Theme / logo handling
-      function setTheme(primaryHex, accentHex){
-        document.documentElement.style.setProperty('--primary', primaryHex);
-        document.documentElement.style.setProperty('--accent', accentHex);
-        primaryColor.value = primaryHex;
-        accentColor.value = accentHex;
-      }
-
-      function hexFromRgb(r,g,b){
-        return '#' + [r,g,b].map(x=> x.toString(16).padStart(2,'0')).join('');
-      }
-
-      function computeThemeFromImage(img){
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-        const w = 120, h = 120;
-        canvas.width = w; canvas.height = h;
-        ctx.drawImage(img, 0, 0, w, h);
-        const data = ctx.getImageData(0,0,w,h).data;
-        let r=0,g=0,b=0,count=0;
-        for(let i=0;i<data.length;i+=4){
-          const alpha = data[i+3];
-          if(alpha < 125) continue;
-          r += data[i]; g += data[i+1]; b += data[i+2]; count++;
-        }
-        if(!count) return null;
-        r = Math.round(r/count); g = Math.round(g/count); b = Math.round(b/count);
-        const accent = lightenRgb(r,g,b, 0.35);
-        return {primary: hexFromRgb(r,g,b), accent: hexFromRgb(accent.r, accent.g, accent.b)};
-      }
-
-      function lightenRgb(r,g,b, amount){
-        const nr = Math.round(r + (255 - r)*amount);
-        const ng = Math.round(g + (255 - g)*amount);
-        const nb = Math.round(b + (255 - b)*amount);
-        return {r:nr,g:ng,b:nb};
-      }
-
-      logoInput.addEventListener('change', (e)=>{
-        const file = e.target.files[0];
-        if(!file) return;
-        const reader = new FileReader();
-        reader.onload = function(ev){
-          siteLogo.src = ev.target.result;
-          siteLogo.style.display = 'block';
-          const img = new Image();
-          img.onload = function(){
-            const theme = computeThemeFromImage(img);
-            if(theme){
-              setTheme(theme.primary, theme.accent);
-              localStorage.setItem('mm_theme_primary', theme.primary);
-              localStorage.setItem('mm_theme_accent', theme.accent);
-            }
-          };
-          img.src = ev.target.result;
-          localStorage.setItem('mm_logo_data', ev.target.result);
-        };
-        reader.readAsDataURL(file);
-      });
-
-      primaryColor.addEventListener('input', ()=> {
-        document.documentElement.style.setProperty('--primary', primaryColor.value);
-        localStorage.setItem('mm_theme_primary', primaryColor.value);
-      });
-      accentColor.addEventListener('input', ()=> {
-        document.documentElement.style.setProperty('--accent', accentColor.value);
-        localStorage.setItem('mm_theme_accent', accentColor.value);
-      });
-
-      resetThemeBtn.addEventListener('click', ()=>{
-        localStorage.removeItem('mm_theme_primary');
-        localStorage.removeItem('mm_theme_accent');
-        localStorage.removeItem('mm_logo_data');
-        setTheme('#d63384','#f6b0d3');
-        siteLogo.style.display = 'none';
-      });
-
-      (function loadPersist(){
-        const p = localStorage.getItem('mm_theme_primary');
-        const a = localStorage.getItem('mm_theme_accent');
-        const l = localStorage.getItem('mm_logo_data');
-        if(p && a) setTheme(p,a);
-        if(l){
-          siteLogo.src = l;
-          siteLogo.style.display = 'block';
-        }
-        const savedPix = localStorage.getItem('mm_pix_link');
-        if(savedPix) pixLinkEl.value = savedPix;
-        const savedPay = localStorage.getItem('mm_paypal_link');
-        if(savedPay) paypalLinkEl.value = savedPay;
-        const cart = loadCart();
-        cartCountEl.textContent = cart.length || 0;
-      })();
-
-      pixLinkEl.addEventListener('change', ()=> {
-        localStorage.setItem('mm_pix_link', pixLinkEl.value.trim());
-      });
-      paypalLinkEl.addEventListener('change', ()=> {
-        localStorage.setItem('mm_paypal_link', paypalLinkEl.value.trim());
-      });
-
-      // initial UI update
-      updateSumUI();
-      updatePriceUI();
-    })();
-  </script>
+pix.onclick=()=>{
+  navigator.clipboard.writeText('SUA-CHAVE-PIX-AQUI');
+  alert('Pix copiado!');
+};
+</script>
 </body>
 </html>
