@@ -153,4 +153,148 @@ footer{text-align:center;font-size:12px;color:#888;padding:20px}
 
 <div class="ready-item"><b>Frango grelhado + arroz + legumes</b>
 <div class="row"><input type="number" min="1" value="1" id="q1">
-<button class="btn btn-outline" onclick="addReady('Frango grelhado + arroz + legumes',q1.value)">Adicionar</
+<button class="btn btn-outline" onclick="addReady('Frango grelhado + arroz + legumes',q1.value)">Adicionar</button></div></div>
+
+<div class="ready-item"><b>Carne de panela + purê + cenoura</b>
+<div class="row"><input type="number" min="1" value="1" id="q2">
+<button class="btn btn-outline" onclick="addReady('Carne de panela + purê + cenoura',q2.value)">Adicionar</button></div></div>
+
+<div class="ready-item"><b>Peixe grelhado + batata doce + brócolis</b>
+<div class="row"><input type="number" min="1" value="1" id="q3">
+<button class="btn btn-outline" onclick="addReady('Peixe grelhado + batata doce + brócolis',q3.value)">Adicionar</button></div></div>
+
+</div>
+
+<div class="card">
+<h2>Monte sua marmita (350g)</h2>
+
+<div style="background:#f3d2e1;border-radius:999px;height:12px">
+  <div id="bar" style="height:100%;width:0%;background:var(--primary)"></div>
+</div>
+<div id="barText" style="font-size:12px">0g de 350g</div>
+
+<label>Proteína</label>
+<div class="row">
+<select id="protein">
+<option value="">Selecione</option>
+<option>Carne de panela</option>
+<option>Carne moída</option>
+<option>Filé de frango grelhado</option>
+<option>Filé de peixe grelhado</option>
+<option>Grão de bico</option>
+</select>
+<input id="pg" type="number" value="150" min="50" max="250">
+</div>
+
+<label>Carboidrato</label>
+<div class="row">
+<select id="carb">
+<option value="">Selecione</option>
+<option>Arroz</option>
+<option>Macarrão</option>
+<option>Batata doce</option>
+<option>Purê</option>
+</select>
+<input id="cg" type="number" value="150" min="50" max="250">
+</div>
+
+<label>Legumes</label>
+<div class="row">
+<select id="veg">
+<option value="">Selecione</option>
+<option>Brócolis</option>
+<option>Cenoura</option>
+<option>Abobrinha</option>
+<option>Mix de legumes</option>
+</select>
+<input id="vg" type="number" value="50" min="50" max="250">
+</div>
+
+<button class="btn btn-primary" onclick="addCustom()">Adicionar • R$19</button>
+</div>
+
+</main>
+
+<div class="modal" id="cartModal">
+<div class="modal-content">
+<h2>Finalizar pedido</h2>
+
+<label>Nome</label><input id="clientName">
+<label>WhatsApp</label><input id="clientPhone">
+<label>Endereço</label><textarea id="clientAddress"></textarea>
+
+<div id="items"></div>
+<div id="summary"></div>
+
+<div class="whats-box">
+🚚 Entrega grátis para Santo Antônio de Lisboa<br>
+Outras regiões: consulte no WhatsApp
+</div>
+
+<div class="pix-box">
+<div id="qrcode"></div>
+PIX: 48991243859
+</div>
+
+<button class="btn btn-primary" onclick="checkout()">Enviar pedido pelo WhatsApp</button>
+<button class="btn btn-outline" onclick="closeCart()">Fechar</button>
+</div>
+</div>
+
+<footer>
+<b>Marmita das Meninas</b> 💗<br>
+Feito por mulheres • Florianópolis – SC
+</footer>
+
+<script>
+const PRICE=19;
+const WHATS='5548991243859';
+let cart=[];
+
+function grams(){
+ const t=(+pg.value||0)+(+cg.value||0)+(+vg.value||0);
+ bar.style.width=Math.min(100,(t/350)*100)+'%';
+ barText.innerText=t+'g de 350g';
+ return t;
+}
+[pg,cg,vg].forEach(i=>i.oninput=grams);
+
+function addCustom(){
+ if(grams()!=350) return alert('Complete 350g');
+ cart.push({type:'custom'});
+ save();
+}
+
+function addReady(name,q){
+ for(let i=0;i<q;i++) cart.push({type:'ready',name});
+ save();
+}
+
+function openCart(){render();cartModal.style.display='flex'}
+function closeCart(){cartModal.style.display='none'}
+
+function save(){cartCount.innerText=cart.length}
+
+function render(){
+ items.innerHTML='';
+ cart.forEach((i,idx)=>{
+  items.innerHTML+=`<div class="cart-item">${i.name||'Marmita personalizada'}
+  <br><button onclick="cart.splice(${idx},1);render();save()">Remover</button></div>`;
+ });
+ let paid=cart.length;
+ let bonus=Math.floor(paid/10);
+ let total=paid+bonus;
+ let value=paid*PRICE;
+ summary.innerHTML=`<b>Total:</b><br>${paid} pagas<br>${bonus} bônus<br><b>R$ ${value}</b>`;
+ qrcode.innerHTML='';
+ new QRCode(qrcode,{text:`PIX R$ ${value}`,width:160,height:160});
+}
+
+function checkout(){
+ let msg=`Olá! Pedido Marmita das Meninas:%0A${cart.length} marmitas`;
+ window.open(`https://wa.me/${WHATS}?text=${msg}`,'_blank');
+}
+</script>
+
+</body>
+</html>
