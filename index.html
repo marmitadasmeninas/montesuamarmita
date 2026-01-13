@@ -60,9 +60,53 @@ footer{text-align:center;font-size:12px;color:#888;padding:20px}
 <h2>Monte sua marmita (350g)</h2>
 <div style="background:#f3d2e1;border-radius:999px;height:12px;overflow:hidden"><div id="bar" style="height:100%;width:0%;background:var(--primary)"></div></div>
 <div id="barText" style="font-size:12px">0g de 350g</div>
-<label>Proteína</label><div class="row"><select id="protein"><option></option><option>Carne de panela</option><option>Carne moída</option><option>Frango grelhado</option></select><input id="pg" type="number" value="150" min="50" max="250"></div>
-<label>Carboidrato</label><div class="row"><select id="carb"><option></option><option>Arroz</option><option>Batata doce</option><option>Purê</option></select><input id="cg" type="number" value="150" min="50" max="250"></div>
-<label>Legume</label><div class="row"><select id="veg"><option></option><option>Cenoura</option><option>Brócolis</option></select><input id="vg" type="number" value="50" min="50" max="250"></div>
+<label>Proteína</label>
+<div class="row">
+  <select id="protein">
+    <option value="">Selecione</option>
+    <option>Carne de panela</option>
+    <option>Carne em tiras</option>
+    <option>Carne moída</option>
+    <option>Filé de frango grelhado</option>
+    <option>Filé de frango à milanesa</option>
+    <option>Filé de peixe grelhado</option>
+    <option>Filé de peixe à milanesa</option>
+    <option>Pernil suíno</option>
+    <option>Grão de bico</option>
+  </select>
+  <input id="pg" type="number" value="150" min="50" max="250">
+</div>
+<label>Carboidrato</label>
+<div class="row">
+  <select id="carb">
+    <option value="">Selecione</option>
+    <option>Arroz</option>
+    <option>Macarrão</option>
+    <option>Batata doce</option>
+    <option>Batata inglesa</option>
+    <option>Aipim</option>
+    <option>Abóbora cabotiá</option>
+    <option>Purê de batata doce</option>
+    <option>Purê de batata</option>
+    <option>Purê de aipim</option>
+    <option>Purê de abóbora</option>
+  </select>
+  <input id="cg" type="number" value="150" min="50" max="250">
+</div>
+<label>Legume</label>
+<div class="row">
+  <select id="veg">
+    <option value="">Selecione</option>
+    <option>Beterraba</option>
+    <option>Cenoura</option>
+    <option>Brócolis</option>
+    <option>Couve-flor</option>
+    <option>Chuchu</option>
+    <option>Abobrinha</option>
+    <option>Mix de legumes</option>
+  </select>
+  <input id="vg" type="number" value="50" min="50" max="250">
+</div>
 <button class="btn btn-primary" onclick="addCustom()">Adicionar • R$19</button>
 </div>
 </main>
