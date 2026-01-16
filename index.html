@@ -91,8 +91,6 @@ select,input,textarea{
   background:#fef1f6;border-radius:16px;
   padding:14px;margin-top:12px;text-align:center
 }
-
-footer{text-align:center;font-size:12px;color:#888;padding:20px}
 </style>
 </head>
 
@@ -225,6 +223,10 @@ Vegetariana • Grão de bico + Abóbora + Abobrinha e Cenoura
 
     <div class="pix-box">
       <b>Pagamento via PIX</b>
+      <p style="font-size:13px;margin:6px 0">
+        Chave PIX (Telefone):<br>
+        <b id="pixKeyText"></b>
+      </p>
       <div id="qrcode" style="margin-top:10px"></div>
     </div>
 
@@ -244,9 +246,11 @@ Vegetariana • Grão de bico + Abóbora + Abobrinha e Cenoura
 </div>
 
 <script>
-const PRICE=19;
-const WHATS='5548991243859';
-let cart=JSON.parse(localStorage.getItem('cart')||'[]');
+const PRICE = 19;
+const WHATS = '5548991243859';
+const PIX_KEY = '48991243859';
+
+let cart = JSON.parse(localStorage.getItem('cart') || '[]');
 
 function grams(){
   const t=(+pg.value||0)+(+cg.value||0)+(+vg1.value||0)+(+vg2.value||0);
@@ -265,10 +269,7 @@ function addCustom(){
     type:'custom',
     protein:protein.value,
     carb:carb.value,
-    legumes:[
-      {nome:veg1.value},
-      {nome:veg2.value}
-    ]
+    legumes:[{nome:veg1.value},{nome:veg2.value}]
   });
   save();
 }
@@ -278,17 +279,14 @@ function addReady(protein, carb, veg1, veg2){
     type:'ready',
     protein,
     carb,
-    legumes:[
-      {nome:veg1},
-      {nome:veg2}
-    ]
+    legumes:[{nome:veg1},{nome:veg2}]
   });
   save();
   alert('Marmita adicionada ao carrinho 💗');
 }
 
-function openCart(){render();cartModal.style.display='flex'}
-function closeCart(){cartModal.style.display='none'}
+function openCart(){ render(); cartModal.style.display='flex'; }
+function closeCart(){ cartModal.style.display='none'; }
 
 function save(){
   localStorage.setItem('cart',JSON.stringify(cart));
@@ -306,9 +304,17 @@ function render(){
       <button onclick="cart.splice(${idx},1);save();render()">Remover</button>
     </div>`;
   });
-  summary.innerHTML=`<b>Total: R$ ${(cart.length*PRICE).toFixed(2)}</b>`;
+
+  const total = (cart.length * PRICE).toFixed(2);
+  summary.innerHTML = `<b>Total: R$ ${total}</b>`;
+  pixKeyText.textContent = PIX_KEY;
+
   qrcode.innerHTML='';
-  new QRCode(qrcode,{text:'PIX R$ '+(cart.length*PRICE).toFixed(2),width:160,height:160});
+  new QRCode(qrcode,{
+    text:`PIX | Chave: ${PIX_KEY} | Valor: R$ ${total}`,
+    width:160,
+    height:160
+  });
 }
 
 function checkout(){
@@ -319,12 +325,4 @@ function checkout(){
   cart.forEach(i=>{
     msg+=`• ${i.type==='ready'?'Sugestão':'Personalizada'}: ${i.protein} + ${i.carb} + ${i.legumes[0].nome} / ${i.legumes[1].nome}%0A`;
   });
-  msg+=`%0ATotal R$ ${(cart.length*PRICE).toFixed(2)}`;
-  window.open(`https://wa.me/${WHATS}?text=${msg}`,'_blank');
-}
-
-save();
-</script>
-
-</body>
-</html>
+  msg+=`%0ATotal
