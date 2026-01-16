@@ -84,12 +84,26 @@ select,input,textarea{
   max-height:90vh;overflow:auto
 }
 
-.cart-item{border-bottom:1px solid #eee;padding:10px 0;font-size:14px}
-.cart-item button{border:none;background:none;color:#b72b3f;font-weight:700}
+.cart-item{
+  border-bottom:1px solid #eee;
+  padding:10px 0;
+  font-size:14px
+}
+.qty{
+  display:flex;gap:8px;align-items:center;margin-top:6px
+}
+.qty button{
+  width:28px;height:28px;border:none;
+  border-radius:50%;background:var(--primary);
+  color:#fff;font-weight:700
+}
 
 .pix-box{
   background:#fef1f6;border-radius:16px;
   padding:14px;margin-top:12px;text-align:center
+}
+.success{
+  text-align:center;padding:30px
 }
 </style>
 </head>
@@ -106,7 +120,7 @@ select,input,textarea{
 </header>
 
 <div class="banner">
-🚚 Entrega grátis para Santo Antônio de Lisboa • 🎁 A cada 10 marmitas ganhe +1
+🚚 Entrega grátis para Santo Antônio de Lisboa / Sambaqui / Cacupé • 🎁 A cada 10 marmitas ganhe +1
 </div>
 
 <main>
@@ -114,28 +128,14 @@ select,input,textarea{
 <div class="card">
 <h2>💗 Sugestão das Meninas</h2>
 
-<button class="btn btn-outline" onclick="addReady('Carne de panela','Arroz','Brócolis','Cenoura')">
-Tradicional • Carne de panela + Arroz + Brócolis e Cenoura
-</button>
-
-<button class="btn btn-outline" onclick="addReady('Filé de frango grelhado','Batata doce','Abobrinha','Chuchu')">
-Leve • Frango grelhado + Batata doce + Abobrinha e Chuchu
-</button>
-
-<button class="btn btn-outline" onclick="addReady('Carne moída','Purê de batata','Beterraba','Cenoura')">
-Caseira • Carne moída + Purê + Beterraba e Cenoura
-</button>
-
-<button class="btn btn-outline" onclick="addReady('Filé de peixe grelhado','Arroz','Brócolis','Couve-flor')">
-Fit • Peixe grelhado + Arroz + Brócolis e Couve-flor
-</button>
-
-<button class="btn btn-outline" onclick="addReady('Grão de bico','Abóbora cabotiá','Abobrinha','Cenoura')">
-Vegetariana • Grão de bico + Abóbora + Abobrinha e Cenoura
-</button>
+<button class="btn btn-outline" onclick="addReady('Tradicional','Carne de panela','Arroz','Brócolis','Cenoura')">Tradicional</button>
+<button class="btn btn-outline" onclick="addReady('Leve','Filé de frango','Batata doce','Abobrinha','Chuchu')">Leve</button>
+<button class="btn btn-outline" onclick="addReady('Caseira','Carne moída','Purê','Beterraba','Cenoura')">Caseira</button>
+<button class="btn btn-outline" onclick="addReady('Fit','Peixe grelhado','Arroz','Brócolis','Couve-flor')">Fit</button>
+<button class="btn btn-outline" onclick="addReady('Vegetariana','Grão de bico','Abóbora','Abobrinha','Cenoura')">Vegetariana</button>
 </div>
 
-<div class="card">
+  <div class="card">
 <h2>Monte sua marmita (400g)</h2>
 
 <div style="background:#f3d2e1;border-radius:999px;height:12px">
@@ -206,123 +206,83 @@ Vegetariana • Grão de bico + Abóbora + Abobrinha e Cenoura
 <input id="vg2" type="number" value="25" min="25">
 </div>
 
-<button class="btn btn-primary" onclick="addCustom()">Adicionar • R$19</button>
-</div>
 </main>
 
-<!-- MODAL DO CARRINHO -->
 <div class="modal" id="cartModal">
-  <div class="modal-content">
-    <div style="display:flex;justify-content:space-between;align-items:center">
-      <h2>🛒 Seu carrinho</h2>
-      <button class="btn btn-outline" onclick="closeCart()">Fechar</button>
-    </div>
-
-    <div id="items"></div>
-    <div id="summary" style="margin-top:10px;font-size:16px"></div>
-
-    <div class="pix-box">
-      <b>Pagamento via PIX</b>
-      <p style="font-size:13px;margin:6px 0">
-        Chave PIX (Telefone):<br>
-        <b id="pixKeyText"></b>
-      </p>
-      <div id="qrcode" style="margin-top:10px"></div>
-    </div>
-
-    <h2>Dados para entrega</h2>
-
-    <label>Nome</label>
-    <input id="clientName">
-
-    <label>Telefone</label>
-    <input id="clientPhone">
-
-    <label>Endereço</label>
-    <textarea id="clientAddress"></textarea>
-
-    <button class="btn btn-primary" onclick="checkout()">📲 Enviar pedido pelo WhatsApp</button>
-  </div>
+  <div class="modal-content" id="cartContent"></div>
 </div>
 
 <script>
 const PRICE = 19;
 const WHATS = '5548991243859';
 const PIX_KEY = '48991243859';
+let cart = JSON.parse(localStorage.getItem('cart')||'[]');
 
-let cart = JSON.parse(localStorage.getItem('cart') || '[]');
-
-function grams(){
-  const t=(+pg.value||0)+(+cg.value||0)+(+vg1.value||0)+(+vg2.value||0);
-  bar.style.width=Math.min(100,(t/400)*100)+'%';
-  barText.textContent=t+'g de 400g';
-  return t;
-}
-[pg,cg,vg1,vg2].forEach(i=>i.addEventListener('input',grams));
-
-function addCustom(){
-  if(grams()!==400) return alert('Complete exatamente 400g');
-  if(!protein.value||!carb.value||!veg1.value||!veg2.value)
-    return alert('Selecione proteína, carboidrato e 2 legumes');
-
-  cart.push({
-    type:'custom',
-    protein:protein.value,
-    carb:carb.value,
-    legumes:[{nome:veg1.value},{nome:veg2.value}]
-  });
+function addReady(name,p,c,v1,v2){
+  const item = cart.find(i=>i.name===name);
+  if(item) item.qty++;
+  else cart.push({name,p,c,v1,v2,qty:1});
   save();
 }
-
-function addReady(protein, carb, veg1, veg2){
-  cart.push({
-    type:'ready',
-    protein,
-    carb,
-    legumes:[{nome:veg1},{nome:veg2}]
-  });
-  save();
-  alert('Marmita adicionada ao carrinho 💗');
-}
-
-function openCart(){ render(); cartModal.style.display='flex'; }
-function closeCart(){ cartModal.style.display='none'; }
 
 function save(){
   localStorage.setItem('cart',JSON.stringify(cart));
-  cartCount.textContent=cart.length;
+  cartCount.textContent=cart.reduce((a,b)=>a+b.qty,0);
 }
+
+function openCart(){
+  render();
+  cartModal.style.display='flex';
+}
+function closeCart(){cartModal.style.display='none'}
 
 function render(){
-  items.innerHTML='';
-  cart.forEach((i,idx)=>{
-    items.innerHTML+=`
+  let total = cart.reduce((s,i)=>s+i.qty*PRICE,0).toFixed(2);
+  cartContent.innerHTML=`
+  <h2>🛒 Seu carrinho</h2>
+  ${cart.map((i,idx)=>`
     <div class="cart-item">
-      <b>${i.type==='ready'?'Sugestão das Meninas':'Marmita personalizada'}</b><br>
-      ${i.protein} + ${i.carb}<br>
-      ${i.legumes[0].nome} / ${i.legumes[1].nome}<br>
-      <button onclick="cart.splice(${idx},1);save();render()">Remover</button>
-    </div>`;
-  });
+      <b>${i.name}</b><br>
+      ${i.p} + ${i.c}<br>${i.v1} / ${i.v2}
+      <div class="qty">
+        <button onclick="i.qty--;if(i.qty<=0)cart.splice(${idx},1);save();render()">−</button>
+        ${i.qty}
+        <button onclick="i.qty++;save();render()">+</button>
+      </div>
+    </div>
+  `).join('')}
+  <b>Total: R$ ${total}</b>
 
-  const total = (cart.length * PRICE).toFixed(2);
-  summary.innerHTML = `<b>Total: R$ ${total}</b>`;
-  pixKeyText.textContent = PIX_KEY;
+  <div class="pix-box">
+    PIX: <b>${PIX_KEY}</b>
+    <div id="qrcode"></div>
+  </div>
 
-  qrcode.innerHTML='';
-  new QRCode(qrcode,{
-    text:`PIX | Chave: ${PIX_KEY} | Valor: R$ ${total}`,
-    width:160,
-    height:160
+  <label>Observações</label>
+  <textarea id="obs"></textarea>
+
+  <button class="btn btn-primary" onclick="checkout('${total}')">Enviar pedido</button>
+  <button class="btn btn-outline" onclick="closeCart()">Fechar</button>
+  `;
+
+  new QRCode(document.getElementById("qrcode"),{
+    text:`PIX ${PIX_KEY} R$ ${total}`,width:160,height:160
   });
 }
 
-function checkout(){
-  if(!clientName.value||!clientPhone.value||!clientAddress.value)
-    return alert('Preencha seus dados');
-
-  let msg=`Pedido Marmita das Meninas:%0A`;
+function checkout(total){
+  let msg=`Pedido Marmita das Meninas%0A`;
   cart.forEach(i=>{
-    msg+=`• ${i.type==='ready'?'Sugestão':'Personalizada'}: ${i.protein} + ${i.carb} + ${i.legumes[0].nome} / ${i.legumes[1].nome}%0A`;
+    msg+=`${i.qty}x ${i.name}%0A`;
   });
-  msg+=`%0ATotal
+  msg+=`Total: R$ ${total}%0AObs: ${obs.value}`;
+  window.open(`https://wa.me/${WHATS}?text=${msg}`,'_blank');
+  cart=[];
+  save();
+  cartContent.innerHTML='<div class="success"><h2>Pedido enviado 💗</h2></div>';
+}
+save();
+</script>
+
+</body>
+</html>
