@@ -139,12 +139,12 @@ Vegetariana • Grão de bico + Abóbora + Abobrinha e Cenoura
 </div>
 
 <div class="card">
-<h2>Monte sua marmita (350g)</h2>
+<h2>Monte sua marmita (400g)</h2>
 
 <div style="background:#f3d2e1;border-radius:999px;height:12px">
   <div id="bar" style="height:100%;width:0%;background:var(--primary)"></div>
 </div>
-<div id="barText" style="font-size:12px">0g de 350g</div>
+<div id="barText" style="font-size:12px">0g de 400g</div>
 
 <label>Proteína</label>
 <div class="row">
@@ -160,7 +160,7 @@ Vegetariana • Grão de bico + Abóbora + Abobrinha e Cenoura
   <option>Pernil suíno</option>
   <option>Grão de bico</option>
 </select>
-<input id="pg" type="number" value="150" min="50">
+<input id="pg" type="number" value="180" min="50">
 </div>
 
 <label>Carboidrato</label>
@@ -176,7 +176,7 @@ Vegetariana • Grão de bico + Abóbora + Abobrinha e Cenoura
   <option>Purê de batata</option>
   <option>Purê de aipim</option>
 </select>
-<input id="cg" type="number" value="150" min="50">
+<input id="cg" type="number" value="170" min="50">
 </div>
 
 <label>Legumes (escolha 2)</label>
@@ -213,32 +213,6 @@ Vegetariana • Grão de bico + Abóbora + Abobrinha e Cenoura
 </div>
 </main>
 
-<div class="modal" id="cartModal">
-<div class="modal-content">
-<h2>Finalizar pedido</h2>
-
-<label>Nome</label><input id="clientName">
-<label>WhatsApp</label><input id="clientPhone">
-<label>Endereço</label><textarea id="clientAddress"></textarea>
-
-<div id="items"></div>
-<div id="summary"></div>
-
-<div class="pix-box">
-<div id="qrcode"></div>
-PIX: 48991243859
-</div>
-
-<button class="btn btn-primary" onclick="checkout()">Enviar pelo WhatsApp</button>
-<button class="btn btn-outline" onclick="closeCart()">Fechar</button>
-</div>
-</div>
-
-<footer>
-<b>Marmita das Meninas</b><br>
-Comida caseira feita por mulheres - Sambaqui, Florianópolis-SC 💗
-</footer>
-
 <script>
 const PRICE=19;
 const WHATS='5548991243859';
@@ -246,14 +220,14 @@ let cart=JSON.parse(localStorage.getItem('cart')||'[]');
 
 function grams(){
   const t=(+pg.value||0)+(+cg.value||0)+(+vg1.value||0)+(+vg2.value||0);
-  bar.style.width=Math.min(100,(t/350)*100)+'%';
-  barText.textContent=t+'g de 350g';
+  bar.style.width=Math.min(100,(t/400)*100)+'%';
+  barText.textContent=t+'g de 400g';
   return t;
 }
 [pg,cg,vg1,vg2].forEach(i=>i.addEventListener('input',grams));
 
 function addCustom(){
-  if(grams()!==350) return alert('Complete exatamente 350g');
+  if(grams()!==400) return alert('Complete exatamente 400g');
   if(!protein.value||!carb.value||!veg1.value||!veg2.value)
     return alert('Selecione proteína, carboidrato e 2 legumes');
 
