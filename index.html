@@ -108,6 +108,45 @@ select,input,textarea{
 </style>
 </head>
 
+<!-- MODAL DO CARRINHO -->
+<div class="modal" id="cartModal">
+  <div class="modal-content">
+    
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <h2>🛒 Seu carrinho</h2>
+      <button class="btn btn-outline" onclick="closeCart()">Fechar</button>
+    </div>
+
+    <div id="items"></div>
+
+    <div id="summary" style="margin-top:10px;font-size:16px"></div>
+
+    <div class="pix-box">
+      <b>Pagamento via PIX</b>
+      <div id="qrcode" style="margin-top:10px"></div>
+    </div>
+
+    <hr style="margin:16px 0">
+
+    <h2>Dados para entrega</h2>
+
+    <label>Nome</label>
+    <input id="clientName" placeholder="Seu nome">
+
+    <label>Telefone</label>
+    <input id="clientPhone" placeholder="WhatsApp">
+
+    <label>Endereço</label>
+    <textarea id="clientAddress" placeholder="Rua, número, bairro"></textarea>
+
+    <button class="btn btn-primary" onclick="checkout()">
+      📲 Enviar pedido pelo WhatsApp
+    </button>
+
+  </div>
+</div>
+
+  
 <body>
 
 <div class="logo-hero">
