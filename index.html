@@ -107,6 +107,8 @@ select,input,textarea{
 }
 </style>
 </head>
+  
+<body>
 
 <!-- MODAL DO CARRINHO -->
 <div class="modal" id="cartModal">
@@ -118,7 +120,6 @@ select,input,textarea{
     </div>
 
     <div id="items"></div>
-
     <div id="summary" style="margin-top:10px;font-size:16px"></div>
 
     <div class="pix-box">
@@ -131,13 +132,13 @@ select,input,textarea{
     <h2>Dados para entrega</h2>
 
     <label>Nome</label>
-    <input id="clientName" placeholder="Seu nome">
+    <input id="clientName">
 
     <label>Telefone</label>
-    <input id="clientPhone" placeholder="WhatsApp">
+    <input id="clientPhone">
 
     <label>Endereço</label>
-    <textarea id="clientAddress" placeholder="Rua, número, bairro"></textarea>
+    <textarea id="clientAddress"></textarea>
 
     <button class="btn btn-primary" onclick="checkout()">
       📲 Enviar pedido pelo WhatsApp
@@ -145,9 +146,6 @@ select,input,textarea{
 
   </div>
 </div>
-
-  
-<body>
 
 <div class="logo-hero">
   <img src="Logo.png" alt="Marmita das Meninas">
@@ -346,7 +344,7 @@ function checkout(){
 }
 
 save();
-
+</script>
 <script>
 // --- EXTENSÃO DO CARRINHO (SEM ALTERAR O CÓDIGO ORIGINAL) ---
 
