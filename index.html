@@ -112,8 +112,8 @@ footer{text-align:center;font-size:12px;color:#888;padding:20px}
 </div>
 
 <main>
-  
-  <!-- SUGESTÃO DAS MENINAS -->
+
+<!-- SUGESTÃO DAS MENINAS -->
 <div class="card">
 <h2>💗 Sugestão das Meninas</h2>
 
@@ -236,7 +236,7 @@ PIX: 48991243859
 
 <footer>
 <b>Marmita das Meninas</b><br>
-Comida caseira feita por mulheres - Sambaqui, Florianópolis-SC.💗
+Comida caseira feita por mulheres - Sambaqui, Florianópolis-SC 💗
 </footer>
 
 <script>
@@ -262,18 +262,33 @@ function addCustom(){
     protein:protein.value,
     carb:carb.value,
     legumes:[
-      {nome:veg1.value,g:+vg1.value},
-      {nome:veg2.value,g:+vg2.value}
+      {nome:veg1.value},
+      {nome:veg2.value}
     ]
   });
   save();
 }
 
+function addReady(protein, carb, veg1, veg2){
+  cart.push({
+    type:'ready',
+    protein,
+    carb,
+    legumes:[
+      {nome:veg1},
+      {nome:veg2}
+    ]
+  });
+  save();
+  alert('Marmita adicionada ao carrinho 💗');
+}
+
 function openCart(){render();cartModal.style.display='flex'}
 function closeCart(){cartModal.style.display='none'}
+
 function save(){
   localStorage.setItem('cart',JSON.stringify(cart));
-  cartCount.textContent=cart.length
+  cartCount.textContent=cart.length;
 }
 
 function render(){
@@ -281,11 +296,11 @@ function render(){
   cart.forEach((i,idx)=>{
     items.innerHTML+=`
     <div class="cart-item">
-      <b>Marmita personalizada</b><br>
+      <b>${i.type==='ready'?'Sugestão das Meninas':'Marmita personalizada'}</b><br>
       ${i.protein} + ${i.carb}<br>
       ${i.legumes[0].nome} / ${i.legumes[1].nome}<br>
       <button onclick="cart.splice(${idx},1);save();render()">Remover</button>
-    </div>`
+    </div>`;
   });
   summary.innerHTML=`<b>Total: R$ ${(cart.length*PRICE).toFixed(2)}</b>`;
   qrcode.innerHTML='';
@@ -295,9 +310,10 @@ function render(){
 function checkout(){
   if(!clientName.value||!clientPhone.value||!clientAddress.value)
     return alert('Preencha seus dados');
+
   let msg=`Pedido Marmita das Meninas:%0A`;
   cart.forEach(i=>{
-    msg+=`• ${i.protein} + ${i.carb} + ${i.legumes[0].nome} / ${i.legumes[1].nome}%0A`;
+    msg+=`• ${i.type==='ready'?'Sugestão':'Personalizada'}: ${i.protein} + ${i.carb} + ${i.legumes[0].nome} / ${i.legumes[1].nome}%0A`;
   });
   msg+=`%0ATotal R$ ${(cart.length*PRICE).toFixed(2)}`;
   window.open(`https://wa.me/${WHATS}?text=${msg}`,'_blank');
