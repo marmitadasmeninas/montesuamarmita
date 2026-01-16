@@ -347,6 +347,69 @@ function checkout(){
 
 save();
 </script>
+<script>
+// --- EXTENSÃO DO CARRINHO (SEM ALTERAR O CÓDIGO ORIGINAL) ---
+
+// adiciona quantidade padrão aos itens existentes
+cart = cart.map(i => ({ qty: 1, ...i }));
+save();
+
+// sobrescreve o render apenas para incluir quantidade +/-
+const originalRender = render;
+render = function () {
+  items.innerHTML = '';
+  let total = 0;
+
+  cart.forEach((i, idx) => {
+    total += i.qty * PRICE;
+
+    items.innerHTML += `
+      <div class="cart-item">
+        <b>${i.type === 'ready' ? 'Sugestão das Meninas' : 'Marmita personalizada'}</b><br>
+        ${i.protein} + ${i.carb}<br>
+        ${i.legumes[0].nome} / ${i.legumes[1].nome}
+
+        <div class="qty">
+          <button onclick="cart[${idx}].qty--; if(cart[${idx}].qty<1) cart.splice(${idx},1); save(); render()">−</button>
+          <b>${i.qty}</b>
+          <button onclick="cart[${idx}].qty++; save(); render()">+</button>
+        </div>
+      </div>
+    `;
+  });
+
+  summary.innerHTML = `<b>Total: R$ ${total.toFixed(2)}</b>`;
+
+  qrcode.innerHTML = '';
+  new QRCode(qrcode, {
+    text: 'PIX 48991243859 | R$ ' + total.toFixed(2),
+    width: 160,
+    height: 160
+  });
+};
+
+// sobrescreve checkout para incluir dados do cliente + quantidades
+checkout = function () {
+  if (!clientName.value || !clientPhone.value || !clientAddress.value)
+    return alert('Preencha seus dados');
+
+  let msg = `🍱 *Pedido Marmita das Meninas*%0A%0A`;
+  msg += `👤 Nome: ${clientName.value}%0A`;
+  msg += `📞 Telefone: ${clientPhone.value}%0A`;
+  msg += `📍 Endereço: ${clientAddress.value}%0A%0A`;
+
+  let total = 0;
+  cart.forEach(i => {
+    total += i.qty * PRICE;
+    msg += `• ${i.qty}x ${i.type === 'ready' ? 'Sugestão' : 'Personalizada'} — ${i.protein} + ${i.carb} + ${i.legumes[0].nome}/${i.legumes[1].nome}%0A`;
+  });
+
+  msg += `%0A💰 Total: R$ ${total.toFixed(2)}`;
+  msg += `%0A🔑 PIX: 48 99124-3859`;
+
+  window.open(`https://wa.me/5548991243859?text=${msg}`, '_blank');
+};
+</script>
 
 </body>
 </html>
