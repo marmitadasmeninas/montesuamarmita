@@ -110,7 +110,6 @@ select,input,textarea{
   
 <body>
 
-<!-- MODAL DO CARRINHO -->
 <div class="modal" id="cartModal">
   <div class="modal-content">
     
@@ -156,8 +155,8 @@ select,input,textarea{
   <button class="cart-btn" onclick="openCart()">🛒 <span id="cartCount">0</span></button>
 </header>
 
-<div class="banner">
-🚚 Entrega grátis para Santo Antônio de Lisboa / Sambaqui / Cacupé • 🎁 A cada 10 marmitas ganhe +1
+<div class="banner"
+🏍️ Entrega grátis para Santo Antônio de Lisboa / Sambaqui / Cacupé • 🎁 A cada 10 marmitas ganhe +1
 </div>
 
 <main>
@@ -350,9 +349,7 @@ function checkout(){
 save();
 </script>
 <script>
-// --- EXTENSÃO DO CARRINHO (SEM ALTERAR O CÓDIGO ORIGINAL) ---
 
-// adiciona quantidade padrão aos itens existentes
 cart = cart.map(i => ({
   ...i,
   qty: i.qty || 1
@@ -360,7 +357,6 @@ cart = cart.map(i => ({
 
 save();
 
-// sobrescreve o render apenas para incluir quantidade +/-
 const originalRender = render;
 render = function () {
   items.innerHTML = '';
@@ -394,7 +390,6 @@ render = function () {
   });
 };
 
-// sobrescreve checkout para incluir dados do cliente + quantidades
 checkout = function () {
   if (!clientName.value || !clientPhone.value || !clientAddress.value)
     return alert('Preencha seus dados');
