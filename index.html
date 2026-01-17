@@ -311,8 +311,8 @@ function openCart(){render();cartModal.style.display='flex'}
 function closeCart(){cartModal.style.display='none'}
 
 function save(){
-  localStorage.setItem('cart',JSON.stringify(cart));
-  cartCount.textContent=cart.length;
+  localStorage.setItem('cart', JSON.stringify(cart));
+  cartCount.textContent = cart.reduce((s,i)=>s+i.qty,0);
 }
 
 function render(){
@@ -349,7 +349,11 @@ save();
 // --- EXTENSÃO DO CARRINHO (SEM ALTERAR O CÓDIGO ORIGINAL) ---
 
 // adiciona quantidade padrão aos itens existentes
-cart = cart.map(i => ({ qty: 1, ...i }));
+cart = cart.map(i => ({
+  ...i,
+  qty: i.qty || 1
+}));
+
 save();
 
 // sobrescreve o render apenas para incluir quantidade +/-
