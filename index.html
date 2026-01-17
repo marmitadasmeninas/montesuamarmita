@@ -79,6 +79,7 @@ select,input,textarea{
   display:none;align-items:flex-end
   z-index:999;
 }
+  
 .modal-content{
   background:#fff;border-radius:22px 22px 0 0;
   padding:16px;width:100%;
@@ -117,7 +118,9 @@ select,input,textarea{
     
     <div style="display:flex;justify-content:space-between;align-items:center">
       <h2>🛒 Seu carrinho</h2>
-      <button class="cart-btn" onclick="openCart()">🛒 <span id="cartCount">0</span></button>
+      <button class="cart-btn" onclick="document.getElementById('cartModal').style.display='flex'">
+  🛒 <span id="cartCount">0</span>
+</button>
       <button class="btn btn-outline" onclick="closeCart()">Fechar</button>
     </div>
 
