@@ -163,8 +163,6 @@ select,input,textarea{
 <main>
 
 <div class="card">
-<!-- SUGESTÃO DAS MENINAS -->
-<div class="card">
 <h2>💗 Sugestão das Meninas</h2>
 
 <button class="btn btn-outline" onclick="addReady('Carne de panela','Arroz','Brócolis','Cenoura')">
@@ -282,27 +280,32 @@ function addCustom(){
     return alert('Selecione proteína, carboidrato e 2 legumes');
 
   cart.push({
-    type:'custom',
-    protein:protein.value,
-    carb:carb.value,
-    legumes:[
-      {nome:veg1.value},
-      {nome:veg2.value}
-    ]
-  });
+  type:'custom',
+  protein:protein.value,
+  carb:carb.value,
+  legumes:[
+    {nome:veg1.value},
+    {nome:veg2.value}
+  ],
+  qty: 1
+});
+
   save();
 }
 
 function addReady(protein, carb, veg1, veg2){
+ 
   cart.push({
-    type:'ready',
-    protein,
-    carb,
-    legumes:[
-      {nome:veg1},
-      {nome:veg2}
-    ]
-  });
+  type:'ready',
+  protein,
+  carb,
+  legumes:[
+    {nome:veg1},
+    {nome:veg2}
+  ],
+  qty: 1
+});
+
   save();
   alert('Marmita adicionada ao carrinho 💗');
 }
@@ -312,8 +315,9 @@ function closeCart(){cartModal.style.display='none'}
 
 function save(){
   localStorage.setItem('cart', JSON.stringify(cart));
-  cartCount.textContent = cart.reduce((s,i)=>s+i.qty,0);
+  cartCount.textContent = cart.reduce((s,i)=>s+(i.qty || 1),0);
 }
+
 
 function render(){
   items.innerHTML='';
