@@ -110,6 +110,7 @@ select,input,textarea{
   
 <body>
 
+<!-- MODAL DO CARRINHO -->
 <div class="modal" id="cartModal">
   <div class="modal-content">
     
@@ -155,12 +156,14 @@ select,input,textarea{
   <button class="cart-btn" onclick="openCart()">🛒 <span id="cartCount">0</span></button>
 </header>
 
-<div class="banner"
-🏍️ Entrega grátis para Santo Antônio de Lisboa / Sambaqui / Cacupé • 🎁 A cada 10 marmitas ganhe +1
+<div class="banner">
+🚚 Entrega grátis para Santo Antônio de Lisboa / Sambaqui / Cacupé • 🎁 A cada 10 marmitas ganhe +1
 </div>
 
 <main>
 
+<div class="card">
+<!-- SUGESTÃO DAS MENINAS -->
 <div class="card">
 <h2>💗 Sugestão das Meninas</h2>
 
@@ -279,32 +282,27 @@ function addCustom(){
     return alert('Selecione proteína, carboidrato e 2 legumes');
 
   cart.push({
-  type:'custom',
-  protein:protein.value,
-  carb:carb.value,
-  legumes:[
-    {nome:veg1.value},
-    {nome:veg2.value}
-  ],
-  qty: 1
-});
-
+    type:'custom',
+    protein:protein.value,
+    carb:carb.value,
+    legumes:[
+      {nome:veg1.value},
+      {nome:veg2.value}
+    ]
+  });
   save();
 }
 
 function addReady(protein, carb, veg1, veg2){
- 
   cart.push({
-  type:'ready',
-  protein,
-  carb,
-  legumes:[
-    {nome:veg1},
-    {nome:veg2}
-  ],
-  qty: 1
-});
-
+    type:'ready',
+    protein,
+    carb,
+    legumes:[
+      {nome:veg1},
+      {nome:veg2}
+    ]
+  });
   save();
   alert('Marmita adicionada ao carrinho 💗');
 }
@@ -313,10 +311,9 @@ function openCart(){render();cartModal.style.display='flex'}
 function closeCart(){cartModal.style.display='none'}
 
 function save(){
-  localStorage.setItem('cart', JSON.stringify(cart));
-  cartCount.textContent = cart.reduce((s,i)=>s+(i.qty || 1),0);
+  localStorage.setItem('cart',JSON.stringify(cart));
+  cartCount.textContent=cart.length;
 }
-
 
 function render(){
   items.innerHTML='';
@@ -349,14 +346,13 @@ function checkout(){
 save();
 </script>
 <script>
+// --- EXTENSÃO DO CARRINHO (SEM ALTERAR O CÓDIGO ORIGINAL) ---
 
-cart = cart.map(i => ({
-  ...i,
-  qty: i.qty || 1
-}));
-
+// adiciona quantidade padrão aos itens existentes
+cart = cart.map(i => ({ qty: 1, ...i }));
 save();
 
+// sobrescreve o render apenas para incluir quantidade +/-
 const originalRender = render;
 render = function () {
   items.innerHTML = '';
@@ -390,6 +386,7 @@ render = function () {
   });
 };
 
+// sobrescreve checkout para incluir dados do cliente + quantidades
 checkout = function () {
   if (!clientName.value || !clientPhone.value || !clientAddress.value)
     return alert('Preencha seus dados');
