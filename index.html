@@ -5,64 +5,163 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Marmita das Meninas</title>
 <style>
-body{margin:0;font-family:'Segoe UI',sans-serif;background:linear-gradient(135deg,#f4b6d8,#d8c6f2);color:#4a2c5b}
-header{background:#fff;padding:24px;text-align:center;box-shadow:0 4px 12px rgba(0,0,0,.1)}
-header img{max-width:160px}
-.container{max-width:1100px;margin:auto;padding:20px}
-.card{background:#fff;border-radius:18px;padding:20px;margin-bottom:20px;box-shadow:0 8px 24px rgba(0,0,0,.08)}
+body{
+  margin:0;
+  font-family:'Segoe UI',sans-serif;
+  background:linear-gradient(135deg,#f4b6d8,#d8c6f2);
+  color:#4a2c5b
+}
+header{
+  background:#fff;
+  padding:20px;
+  text-align:center;
+  box-shadow:0 4px 12px rgba(0,0,0,.1)
+}
+header img{max-width:140px}
+.container{max-width:1100px;margin:auto;padding:15px}
+.card{
+  background:#fff;
+  border-radius:18px;
+  padding:20px;
+  margin-bottom:20px;
+  box-shadow:0 8px 24px rgba(0,0,0,.08)
+}
 h2{color:#a14fa0}
-button{background:linear-gradient(135deg,#e36fae,#b57de8);border:none;color:#fff;padding:12px 22px;border-radius:30px;cursor:pointer;font-size:1rem}
+button{
+  background:linear-gradient(135deg,#e36fae,#b57de8);
+  border:none;
+  color:#fff;
+  padding:12px 22px;
+  border-radius:30px;
+  cursor:pointer;
+  font-size:1rem;
+  width:100%
+}
 button:hover{opacity:.9}
-select,input{width:100%;padding:10px;margin-bottom:10px;border-radius:10px;border:1px solid #ccc}
+select,input{
+  width:100%;
+  padding:10px;
+  margin-bottom:10px;
+  border-radius:10px;
+  border:1px solid #ccc
+}
 .info{font-size:.9rem;color:#6b4c7a}
-.cart-btn{position:fixed;right:20px;bottom:20px;background:#fff;border-radius:50px;padding:15px 25px;box-shadow:0 6px 20px rgba(0,0,0,.15);cursor:pointer}
-.cart-modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.5)}
-.cart-content{background:#fff;max-width:520px;margin:60px auto;padding:20px;border-radius:18px}
-.item{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-size:.9rem}
+.cart-btn{
+  position:fixed;
+  right:15px;
+  bottom:15px;
+  background:#fff;
+  border-radius:50px;
+  padding:12px 20px;
+  box-shadow:0 6px 20px rgba(0,0,0,.15);
+  cursor:pointer;
+  font-size:.9rem
+}
+.cart-modal{
+  display:none;
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,.5)
+}
+.cart-content{
+  background:#fff;
+  max-width:520px;
+  margin:40px auto;
+  padding:20px;
+  border-radius:18px
+}
+.item{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:10px;
+  font-size:.9rem
+}
 .qty{width:60px}
 .total{font-weight:bold;margin-top:10px}
+
+/* Mobile */
+@media (max-width:600px){
+  h1{font-size:1.5rem}
+  h2{font-size:1.2rem}
+  .cart-content{margin:20px}
+}
 </style>
 </head>
+
 <body>
 <header>
 <img src="Logo.png" alt="Logo Marmita das Meninas">
 <h1>Marmita das Meninas</h1>
-<p class="info">Sabor caseiro, feminino e premium 💕</p>
+<p class="info">Feita por elas, pensada pra você. 💕</p>
 </header>
 
 <div class="container">
+
 <div class="card">
-<h2>🍽 Marmitas Prontas – R$19</h2>
+<h2>🍽 Marmitas Prontas – R$19 (350g)</h2>
 <p><strong>Tradicional</strong> • Carne de panela, arroz branco, brócolis e cenoura.</p>
 <button onclick="addItem('Tradicional')">Adicionar</button><hr>
-<p><strong>Leve</strong> • Frango grelhado, batata doce, abobrinha e chuchu.</p>
+
+<p><strong>Leve</strong> • Frango grelhado, batata doce e legumes.</p>
 <button onclick="addItem('Leve')">Adicionar</button><hr>
-<p><strong>Caseira</strong> • Carne moída, purê de batata, beterraba e cenoura.</p>
+
+<p><strong>Caseira</strong> • Carne moída, purê de batata e legumes.</p>
 <button onclick="addItem('Caseira')">Adicionar</button><hr>
-<p><strong>Fit</strong> • Peixe grelhado, arroz branco, brócolis e couve-flor.</p>
+
+<p><strong>Fit</strong> • Peixe grelhado, arroz branco e legumes.</p>
 <button onclick="addItem('Fit')">Adicionar</button><hr>
-<p><strong>Vegetariana</strong> • Grão de bico, abóbora, abobrinha e cenoura.</p>
+
+<p><strong>Vegetariana</strong> • Grão de bico e legumes.</p>
 <button onclick="addItem('Vegetariana')">Adicionar</button>
 </div>
 
 <div class="card">
-<h2>✨ Monte sua Marmita (400g)</h2>
+<h2>✨ Monte sua Marmita (350g)</h2>
 <p class="info">Cada item: mínimo 50g • máximo 250g</p>
-<select id="prot"><option>Carne de panela</option><option>Carne em tiras</option><option>Carne moída</option><option>Filé de frango grelhado</option><option>Filé de frango à milanesa</option><option>Filé de peixe grelhado</option><option>Filé de peixe à milanesa</option><option>Lombo suíno</option><option>Grão de bico</option></select>
-<select id="carb"><option>Arroz</option><option>Macarrão</option><option>Batata doce</option><option>Batata inglesa</option><option>Aipim</option><option>Abóbora cabotiá</option><option>Purê de batata</option><option>Purê de aipim</option></select>
-<select id="leg1"><option>Beterraba</option><option>Cenoura</option><option>Brócolis</option><option>Couve-flor</option><option>Chuchu</option><option>Abobrinha</option><option>Mix de legumes</option></select>
-<select id="leg2"><option>Beterraba</option><option>Cenoura</option><option>Brócolis</option><option>Couve-flor</option><option>Chuchu</option><option>Abobrinha</option><option>Mix de legumes</option></select>
+
+<select id="prot">
+<option>Carne de panela</option>
+<option>Carne em tiras</option>
+<option>Carne moída</option>
+<option>Filé de frango grelhado</option>
+<option>Filé de frango à milanesa</option>
+<option>Filé de peixe grelhado</option>
+<option>Filé de peixe à milanesa</option>
+<option>Lombo suíno</option>
+<option>Grão de bico</option>
+</select>
+
+<select id="carb">
+<option>Arroz</option>
+<option>Macarrão</option>
+<option>Batata doce</option>
+<option>Batata inglesa</option>
+<option>Aipim</option>
+<option>Abóbora cabotiá</option>
+<option>Purê de batata</option>
+<option>Purê de aipim</option>
+</select>
+
+<select id="leg1">
+<option>Beterraba</option>
+<option>Cenoura</option>
+<option>Brócolis</option>
+<option>Couve-flor</option>
+<option>Chuchu</option>
+<option>Abobrinha</option>
+<option>Mix de legumes</option>
+</select>
+
 <input type="number" id="g1" placeholder="Proteína (50g–250g)">
 <input type="number" id="g2" placeholder="Carboidrato (50g–250g)">
 <input type="number" id="g3" placeholder="Legumes (50g–250g)">
-<p class="info">Total: <span id="peso">0</span>g / 400g</p>
-<button onclick="addCustom()">Adicionar personalizada</button>
-</div>
 
-<div class="card">
-<h2>🚚 Entrega & Promoções</h2>
-<p class="info">Entrega grátis: Sambaqui, Santo Antônio de Lisboa e Cacupé.<br>Horário agendado: consultar taxa.</p>
-<p class="info">🎁 A cada 10 marmitas pagas, você ganha +1 grátis.</p>
+<p class="info">Total: <span id="peso">0</span>g / 350g</p>
+<button onclick="addCustom()">Adicionar personalizada</button>
 </div>
 
 <div class="card">
@@ -71,10 +170,9 @@ select,input{width:100%;padding:10px;margin-bottom:10px;border-radius:10px;borde
 <input id="tel" placeholder="Telefone">
 <input id="end" placeholder="Endereço">
 <p class="info">💳 PIX: (48) 99124-3859</p>
-<img src="qrcode-pix.png" alt="QR Code Pix" style="max-width:200px">
-<p class="info">Código copia e cola:<br><small>00020101021126360014br.gov.bcb.pix0114+55489912438595204000053039865802BR5925FRANCINE BERTANI ALCANTAR6009SAO PAULO622905251KF4TRXDCGEECFB40XV97DR8C63044E1A</small></p>
 <button onclick="sendWhats()">Enviar pedido pelo WhatsApp</button>
 </div>
+
 </div>
 
 <div class="cart-btn" onclick="openCart()">🛒 Carrinho (<span id="count">0</span>)</div>
@@ -92,14 +190,67 @@ select,input{width:100%;padding:10px;margin-bottom:10px;border-radius:10px;borde
 <script>
 let cart=[];
 function validarPeso(v){return v>=50 && v<=250}
-function addItem(nome){cart.push({nome,qty:1});alert('Marmita adicionada ao carrinho 💖');update();}
-function addCustom(){let a=+g1.value,b=+g2.value,c=+g3.value;let t=a+b+c;peso.innerText=t;if(![a,b,c].every(validarPeso)||t>400){alert('Cada item deve ter entre 50g e 250g e total até 400g');return;}let nome=`Personalizada (${prot.value}, ${carb.value}, ${leg1.value}, ${leg2.value}) ${t}g`;addItem(nome)}
-function update(){count.innerText=cart.length;cartItems.innerHTML='';cart.forEach((i,idx)=>{cartItems.innerHTML+=`<div class='item'>${i.nome}<input class='qty' type='number' value='${i.qty}' min='1' onchange='cart[${idx}].qty=this.value'></div>`});calc()}
-function calc(){let pagas=cart.reduce((s,i)=>s+Number(i.qty),0);let bonus=Math.floor(pagas/10);pagasEl.innerText=pagas;bonusEl.innerText=bonus;totalM.innerText=pagas+bonus;valor.innerText=(pagas*19).toFixed(2)}
+function addItem(nome){
+  cart.push({nome,qty:1});
+  alert('Marmita adicionada ao carrinho 💖');
+  update();
+}
+
+function addCustom(){
+  let a=+g1.value,b=+g2.value,c=+g3.value;
+  let t=a+b+c;
+  peso.innerText=t;
+  if(![a,b,c].every(validarPeso)||t>350){
+    alert('Cada item deve ter entre 50g e 250g e total até 350g');
+    return;
+  }
+  let nome=`Personalizada (${prot.value}, ${carb.value}, ${leg1.value}) ${t}g`;
+  addItem(nome);
+}
+
+function update(){
+  count.innerText=cart.length;
+  cartItems.innerHTML='';
+  cart.forEach((i,idx)=>{
+    cartItems.innerHTML+=`
+    <div class='item'>
+      ${i.nome}
+      <input class='qty' type='number' value='${i.qty}' min='1'
+      onchange='cart[${idx}].qty=this.value'>
+    </div>`;
+  });
+  calc();
+}
+
+function calc(){
+  let pagas=cart.reduce((s,i)=>s+Number(i.qty),0);
+  let bonus=Math.floor(pagas/10);
+  pagasEl.innerText=pagas;
+  bonusEl.innerText=bonus;
+  totalM.innerText=pagas+bonus;
+  valor.innerText=(pagas*19).toFixed(2);
+}
+
 function openCart(){cartModal.style.display='block'}
 function closeCart(){cartModal.style.display='none'}
-function sendWhats(){let msg='Pedido Marmita das Meninas:%0A';cart.forEach(i=>{msg+=`${i.qty}x ${i.nome}%0A`});msg+=`%0APagas: ${pagasEl.innerText} | Bônus: ${bonusEl.innerText}%0ATotal: ${totalM.innerText}%0AValor: R$${valor.innerText}%0ACliente: ${nome.value}%0ATel: ${tel.value}%0AEndereço: ${end.value}`;window.open(`https://wa.me/5548991243859?text=${msg}`,'_blank')}
-const pagasEl=document.getElementById('pagas');const bonusEl=document.getElementById('bonus');const totalM=document.getElementById('totalM');const valor=document.getElementById('valor');
+
+function sendWhats(){
+  let msg='Pedido Marmita das Meninas:%0A';
+  cart.forEach(i=>{msg+=`${i.qty}x ${i.nome}%0A`});
+  msg+=`%0APagas: ${pagasEl.innerText} | Bônus: ${bonusEl.innerText}
+%0ATotal: ${totalM.innerText}
+%0AValor: R$${valor.innerText}
+%0ACliente: ${nome.value}
+%0ATel: ${tel.value}
+%0AEndereço: ${end.value}`;
+  window.open(`https://wa.me/5548991243859?text=${msg}`,'_blank');
+}
+
+const pagasEl=document.getElementById('pagas');
+const bonusEl=document.getElementById('bonus');
+const totalM=document.getElementById('totalM');
+const valor=document.getElementById('valor');
 </script>
+
 </body>
 </html>
