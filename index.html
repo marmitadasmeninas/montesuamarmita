@@ -107,6 +107,34 @@ select,input{
   h2{font-size:1.2rem}
   .cart-content{margin:20px}
 }
+  .cart-content{
+  max-height:85vh;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+}
+
+#cartItems{
+  overflow-y:auto;
+  max-height:55vh;
+  padding-right:6px;
+}
+
+.qty-controls{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  margin-top:6px;
+}
+
+.qty-controls button{
+  width:34px;
+  height:34px;
+  padding:0;
+  border-radius:50%;
+  font-weight:bold;
+}
+
 </style>
 </head>
 
@@ -134,19 +162,33 @@ Comprando <strong>30 marmitas</strong>, ganha <strong>+3</strong>
 <h2>🍽 Sugestões das Meninas – R$19 (350g)</h2>
 
 <p><strong>Tradicional</strong> • Carne de panela (120g), arroz (150g) e brócolis (80g).</p>
-<button onclick="addItem('Tradicional – Carne 120g / Arroz 150g / Brócolis 80g')">Adicionar</button><hr>
+<div class="qty-controls">
+  <button onclick="addItem('Tradicional – Carne 120g / Arroz 150g / Brócolis 80g')">+</button>
+  <button onclick="removeItem('Tradicional – Carne 120g / Arroz 150g / Brócolis 80g')">−</button>
+</div>
 
 <p><strong>Leve</strong> • Frango grelhado (120g), batata doce (150g) e abóbora (80g).</p>
-<button onclick="addItem('Leve – Frango 120g / Batata doce 150g / Abóbora 80g')">Adicionar</button><hr>
+<div class="qty-controls">
+  <button onclick="addItem('Leve – Frango 120g / Batata doce 150g / Abóbora 80g')">+</button>
+  <button onclick="removeItem('Leve – Frango 120g / Batata doce 150g / Abóbora 80g')">−</button>
+</div>
 
 <p><strong>Caseira</strong> • Carne moída (120g), purê de batata (150g) e beterraba (80g).</p>
-<button onclick="addItem('Caseira – Carne moída 120g / Purê 150g / Beterraba 80g')">Adicionar</button><hr>
+<div class="qty-controls">
+  <button onclick="addItem('Caseira – Carne moída 120g / Purê 150g / Beterraba 80g')">+</button>
+  <button onclick="removeItem('Caseira – Carne moída 120g / Purê 150g / Beterraba 80g')">−</button>
+</div>
 
 <p><strong>Fit</strong> • Peixe grelhado (120g), arroz (150g) e cenoura (80g).</p>
-<button onclick="addItem('Fit – Peixe 120g / Arroz 150g / Cenoura 80g')">Adicionar</button><hr>
+<div class="qty-controls">
+  <button onclick="addItem('Fit – Peixe 120g / Arroz 150g / Cenoura 80g')">+</button>
+  <button onclick="removeItem('Fit – Peixe 120g / Arroz 150g / Cenoura 80g')">−</button>
+</div>
 
 <p><strong>Vegetariana</strong> • Grão de bico (120g), purê de abóbora (150g) e couve-flor (80g).</p>
-<button onclick="addItem('Vegetariana – Grão de bico 120g / Purê abóbora 150g / Couve-flor 80g')">Adicionar</button>
+<div class="qty-controls">
+  <button onclick="addItem('Vegetariana – Grão de bico 120g / Purê abóbora 150g / Couve-flor 80g')">+</button>
+  <button onclick="removeItem('Vegetariana – Grão de bico 120g / Purê abóbora 150g / Couve-flor 80g')">−</button>
 </div>
 
 <div class="card">
@@ -272,9 +314,12 @@ function update(){
     cartItems.innerHTML+=`
     <div class='item'>
       ${i.nome.replace(/\n/g,'<br>')}
-      <br>
-      Qtd: <input class='qty' type='number' value='${i.qty}' min='1'
-      onchange='cart[${idx}].qty=this.value;calc()'>
+      <div class="qty-controls">
+        <button onclick="changeQty(${idx},-1)">−</button>
+        <input class='qty' type='number' value='${i.qty}' min='1'
+        onchange='cart[${idx}].qty=this.value;calc()'>
+        <button onclick="changeQty(${idx},1)">+</button>
+      </div>
     </div>`;
   });
   calc();
@@ -305,6 +350,23 @@ const pagasEl=document.getElementById('pagas');
 const bonusEl=document.getElementById('bonus');
 const totalM=document.getElementById('totalM');
 const valor=document.getElementById('valor');
+
+  function changeQty(index,delta){
+  cart[index].qty += delta;
+  if(cart[index].qty < 1){
+    cart.splice(index,1);
+  }
+  update();
+}
+
+function removeItem(nome){
+  let i = cart.findIndex(x=>x.nome===nome);
+  if(i>-1){
+    cart[i].qty--;
+    if(cart[i].qty<=0) cart.splice(i,1);
+    update();
+  }
+}
 </script>
 
 </body>
